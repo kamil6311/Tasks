@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
+  public currentDate: string = new Date().toLocaleDateString('fr-FR', {weekday: 'long', month: 'long', day: 'numeric'});
+
   constructor() {}
 
 }
