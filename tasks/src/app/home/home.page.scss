@@ -19,3 +19,17 @@ h5 {
   margin-bottom: 15px;
   text-transform: capitalize;
 }
+
+.add-btn{
+  position: absolute;
+  bottom: 20px;
+  margin-left: 76%;
+
+  ion-button{
+    --border-radius: 50px;
+    --background: #56b89f;
+    --color: #ffffff;
+    height: 9vh;
+    width: 9vh;
+  }
+}

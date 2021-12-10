@@ -10,7 +10,12 @@
   <div class="img-bg">
     <h1><b>Aujourd'hui</b></h1>
     <h5>{{ currentDate }}</h5>
-
     <app-tasks></app-tasks>
+
+    <ion-buttons class="add-btn">
+      <ion-button (click)="onAddTaskClick()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </div>
 </ion-content>

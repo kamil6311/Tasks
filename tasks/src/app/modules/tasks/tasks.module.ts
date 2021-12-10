@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TasksComponent } from './tasks/tasks.component';
+import { IonicModule } from '@ionic/angular';
+import { TasksComponent } from './components/tasks/tasks.component';
+import { TasksListComponent } from './components/tasksList/tasks-list.component';
+import { AddTaskComponent } from './components/addTask/add-task.component';
 
 
 @NgModule({
-  declarations: [TasksComponent],
+  declarations: [TasksComponent, TasksListComponent, AddTaskComponent],
   imports: [
-    CommonModule
+    CommonModule,IonicModule
   ],
-  exports: [TasksComponent],
+  exports: [TasksComponent, TasksListComponent, AddTaskComponent],
 
 })
 export class TasksModule { }
