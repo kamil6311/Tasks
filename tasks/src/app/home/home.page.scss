@@ -33,3 +33,8 @@ h5 {
     width: 8vh;
   }
 }
+
+.container{
+  -webkit-filter: blur(3px);
+  opacity: .3;
+}

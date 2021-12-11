@@ -1,15 +1,26 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+
+
+<ion-header >
+  <ion-toolbar color="tertiary">
     <ion-title>
       Tâches
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [ngClass]="modalOpened ? 'container' : '' "  >
+
+  <!-- Refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content >
+    </ion-refresher-content>
+  </ion-refresher>
+
   <div class="img-bg">
     <h1><b>Aujourd'hui</b></h1>
     <h5>{{ currentDate }}</h5>
+
+    <!-- TasksComponent -->
     <app-tasks></app-tasks>
 
     <ion-buttons class="add-btn">

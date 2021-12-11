@@ -1,19 +1,64 @@
-<ion-toolbar>
-  <ion-buttons slot="start">
-    <ion-button (click)="onAddTaskClose()">
-      <ion-icon name="close"></ion-icon>
-    </ion-button>
-  </ion-buttons>
-  <ion-title>Ajouter une tâche</ion-title>
-</ion-toolbar>
+<ion-content class="add-task-container"  >
+  <ion-card  >
+    <ion-card-subtitle>
+      <ion-toolbar >
+        <ion-buttons slot="start">
+          <ion-button (click)="onAddTaskClose()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ion-title>{{ titleInput.value }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="onAddTaskValidate()">
+            <ion-icon name="checkmark"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
 
-<ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-item>
-        <ion-label position="floating">Titre</ion-label>
-        <ion-input></ion-input>
-      </ion-item>
-    </ion-card-header>
+    </ion-card-subtitle>
+    <ion-card-content style="text-align: center;">
+
+      <ion-card>
+        <ion-card-title class="task-title">
+          <ion-label >Titre</ion-label>
+        </ion-card-title>
+        <ion-card-header>
+            <ion-input value="Nouvelle Tache" #titleInput></ion-input>
+        </ion-card-header>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-subtitle>
+          <ion-label>Horaire</ion-label>
+        </ion-card-subtitle>
+        <ion-datetime value="{{ currentTime }}" displayFormat="HH:mm"   ></ion-datetime>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-subtitle>
+          <ion-label> Priorité </ion-label>
+        </ion-card-subtitle>
+        <ion-select value="{{ TaskLevels[0] }}">
+          <ng-container *ngFor="let level of TaskLevels">
+
+          <ion-select-option >
+
+            <!-- <ion-button color="{{ level }}" class="priority-btn" (click)="onSelectLevel(level)">
+            </ion-button> -->
+            <ion-label color="{{ level }}">
+              <ion-icon  ></ion-icon>
+              {{ level }}
+            </ion-label>
+          </ion-select-option>
+        </ng-container>
+        </ion-select >
+        <ion-card-content>
+          <ion-label >{{ levelSelected }}</ion-label>
+        </ion-card-content>
+      </ion-card>
+    </ion-card-content>
   </ion-card>
 </ion-content>
+
+
+

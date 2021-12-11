@@ -11,6 +11,7 @@ import { AddTaskComponent } from '../modules/tasks/components/addTask/add-task.c
 export class HomePage {
 
   public currentDate: string = new Date().toLocaleDateString('fr-FR', {weekday: 'long', month: 'long', day: 'numeric'});
+  public modalOpened: boolean = false;
 
   constructor(
     private modalCtrl: ModalController
@@ -19,9 +20,18 @@ export class HomePage {
 
   public onAddTaskClick(): void{
     this.modalCtrl.create({component: AddTaskComponent}).then(modal => {
-      modal.present();
+        modal.present();
+        this.modalOpened = true;
+        modal.onDidDismiss().then((data) => {
+          this.modalOpened = false;
+        })
       }
-    );
+    )
+  }
+
+  public doRefresh(event): void {
+    console.log('Refreshing tasks...');
+    event.target.complete();
   }
 
 }
