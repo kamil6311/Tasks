@@ -17,10 +17,22 @@
   </ion-refresher>
 
   <div class="img-bg">
-    <div>
-      <h1><b>Aujourd'hui</b></h1>
-      <h5>{{ currentDate }}</h5>
-    </div>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+            <h1><b>Aujourd'hui</b></h1>
+            <h5>{{ currentDate }}</h5>
+        </ion-col>
+        <ion-col >
+          <div class="meteo">
+            <ion-icon size="large" [name]="weatherIcon" color="warning"></ion-icon>
+            <ion-label class="temp">{{ currentMeteoTemperature }} °C</ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
 
 
     <!-- TasksComponent -->
