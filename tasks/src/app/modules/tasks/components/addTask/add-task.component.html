@@ -1,5 +1,6 @@
-<ion-content class="add-task-container"  >
+<ion-content class="add-task-container">
   <ion-card  >
+    <form [formGroup]="taskForm" (ngSubmit)="onAddTaskValidate()">
     <ion-card-subtitle>
       <ion-toolbar >
         <ion-buttons slot="start">
@@ -7,23 +8,22 @@
             <ion-icon name="close"></ion-icon>
           </ion-button>
         </ion-buttons>
-        <ion-title>{{ titleInput.value }}</ion-title>
+        <ion-title>Nouvelle tâche</ion-title>
         <ion-buttons slot="end">
-          <ion-button (click)="onAddTaskValidate()">
+          <ion-button type="submit" [disabled]="!taskForm.valid">
             <ion-icon name="checkmark"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
-
     </ion-card-subtitle>
-    <ion-card-content style="text-align: center;">
 
+    <ion-card-content style="text-align: center;">
       <ion-card>
         <ion-card-title class="task-title">
-          <ion-label >Titre</ion-label>
+          <ion-label>Titre</ion-label>
         </ion-card-title>
         <ion-card-header>
-            <ion-input value="Nouvelle Tache" #titleInput></ion-input>
+            <ion-input placeholder="Nouvelle Tâche" #titleInput formControlName="title"></ion-input>
         </ion-card-header>
       </ion-card>
 
@@ -31,7 +31,7 @@
         <ion-card-subtitle>
           <ion-label>Horaire</ion-label>
         </ion-card-subtitle>
-        <ion-datetime value="{{ currentTime }}" displayFormat="HH:mm"   ></ion-datetime>
+        <ion-datetime value="{{ currentTime }}" displayFormat="HH:mm" formControlName="time"></ion-datetime>
       </ion-card>
 
       <ion-card>
@@ -56,7 +56,17 @@
           <ion-label >{{ levelSelected }}</ion-label>
         </ion-card-content>
       </ion-card>
+
+      <ion-card>
+        <ion-card-subtitle>Description</ion-card-subtitle>
+        <ion-card-content class="description-content">
+          <ion-textarea placeholder="Ajouter une description" formControlName="description"></ion-textarea>
+        </ion-card-content>
+      </ion-card>
+
+
     </ion-card-content>
+  </form>
   </ion-card>
 </ion-content>
 
