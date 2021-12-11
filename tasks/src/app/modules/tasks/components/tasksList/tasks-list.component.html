@@ -1,5 +1,8 @@
 <ion-card *ngFor="let task of tasksList">
   <ion-item lines="none">
-    <ion-label>{{ task.title }}</ion-label>
+    <ion-label>
+      <h2>{{ task.title }}</h2>
+      <p>{{ task.date }}</p>
+    </ion-label>
   </ion-item>
 </ion-card>

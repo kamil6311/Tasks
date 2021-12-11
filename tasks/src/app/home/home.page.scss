@@ -23,13 +23,13 @@ h5 {
 .add-btn{
   position: absolute;
   bottom: 20px;
-  margin-left: 76%;
+  right: 20px;
 
   ion-button{
     --border-radius: 50px;
     --background: #56b89f;
     --color: #ffffff;
-    height: 9vh;
-    width: 9vh;
+    height: 8vh;
+    width: 8vh;
   }
 }
