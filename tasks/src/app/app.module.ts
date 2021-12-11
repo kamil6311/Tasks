@@ -10,6 +10,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule  } from '@angular/fire/compat/database'
 
+import { HttpClientModule } from '@angular/common/http';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyAINqy6iZE94BNnwka4BRnScg9JgmpPebc",
@@ -25,7 +27,7 @@ const firebaseConfig = {
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, AngularFireModule.initializeApp(firebaseConfig), AngularFireDatabaseModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, AngularFireModule.initializeApp(firebaseConfig), AngularFireDatabaseModule, HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
