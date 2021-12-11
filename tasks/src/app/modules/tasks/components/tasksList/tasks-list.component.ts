@@ -16,7 +16,7 @@ export class TasksListComponent implements OnInit {
     private tasksService: TasksService
   ) { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.tasksService.tasks.pipe(
       tap((tasks: Task[]) => {
         this.tasksList = tasks;
@@ -24,6 +24,8 @@ export class TasksListComponent implements OnInit {
     ).subscribe();
 
   }
+
+
 
 }
 

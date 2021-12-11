@@ -10,7 +10,7 @@ import { take, tap } from 'rxjs/operators'
 export class TasksService{
   private _tasks = new BehaviorSubject<Task[]>([]);
 
-  private basicTask: Task = new Task('01', 'BasicTask', 'My basic task', TaskLevel.normal, false);
+  private basicTask: Task = new Task(1, 'BasicTask', new Date().toTimeString().substring(0, 5), TaskLevel.normal, false, 'My basic task');
 
   constructor() {
     this.addTask(this.basicTask).subscribe();
