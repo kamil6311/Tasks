@@ -25,6 +25,7 @@ export class HomePage implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+
     this.getCurrentWeather().subscribe();
 
     if(navigator.geolocation){
@@ -37,7 +38,10 @@ export class HomePage implements OnInit {
 
 
   public onAddTaskClick(): void{
-    this._modalCtrl.create({component: AddTaskComponent}).then(modal => {
+    this._modalCtrl.create({
+      component: AddTaskComponent,
+      swipeToClose: true,
+    }).then(modal => {
         modal.present();
         this.modalOpened = true;
         modal.onDidDismiss().then((data) => {

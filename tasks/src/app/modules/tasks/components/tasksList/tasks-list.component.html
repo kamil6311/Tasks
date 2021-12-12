@@ -1,5 +1,6 @@
-<ion-card *ngFor="let task of tasksList">
+<ion-card *ngFor="let task of tasksList" >
   <ion-item lines="none">
+    <ion-checkbox color="success" slot="start"></ion-checkbox>
     <ion-label>
       <h2>{{ task.title }}</h2>
       <p>{{ task.date }}</p>

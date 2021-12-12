@@ -41,7 +41,7 @@ export class AddTaskComponent implements OnInit {
   public onAddTaskValidate(): void {
     const taskFormData = this.taskForm.value;
 
-    this.tasksService.addTask(new Task(Math.random(), taskFormData.title, new Date(taskFormData.time).toTimeString().substring(0, 5), TaskLevel.normal, false, taskFormData.description))
+    this.tasksService.addTask(new Task(taskFormData.title, new Date(taskFormData.time).toTimeString().substring(0, 5), TaskLevel.normal, false, taskFormData.description))
     .subscribe(() => this.modalCtrl.dismiss());
   }
 
