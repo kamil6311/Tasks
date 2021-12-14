@@ -1,6 +1,3 @@
-
-
-
 <ion-header >
   <ion-toolbar color="tertiary">
     <ion-title>
@@ -9,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [ngClass]="modalOpened ? 'container' : '' "  >
+<ion-content [ngClass]="modalOpened ? 'container' : '' "  scrollY="false">
 
   <!-- Refresh -->
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">

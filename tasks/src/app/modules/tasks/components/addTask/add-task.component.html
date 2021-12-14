@@ -31,30 +31,7 @@
         <ion-card-subtitle>
           <ion-label>Horaire</ion-label>
         </ion-card-subtitle>
-        <ion-datetime value="{{ currentTime }}" displayFormat="HH:mm" formControlName="time"></ion-datetime>
-      </ion-card>
-
-      <ion-card>
-        <ion-card-subtitle>
-          <ion-label> Priorité </ion-label>
-        </ion-card-subtitle>
-        <ion-select value="{{ TaskLevels[0] }}">
-          <ng-container *ngFor="let level of TaskLevels">
-
-          <ion-select-option >
-
-            <!-- <ion-button color="{{ level }}" class="priority-btn" (click)="onSelectLevel(level)">
-            </ion-button> -->
-            <ion-label color="{{ level }}">
-              <ion-icon  ></ion-icon>
-              {{ level }}
-            </ion-label>
-          </ion-select-option>
-        </ng-container>
-        </ion-select >
-        <ion-card-content>
-          <ion-label >{{ levelSelected }}</ion-label>
-        </ion-card-content>
+        <ion-datetime displayFormat="HH:mm" formControlName="time"></ion-datetime>
       </ion-card>
 
       <ion-card>
@@ -63,7 +40,6 @@
           <ion-textarea placeholder="Ajouter une description" formControlName="description"></ion-textarea>
         </ion-card-content>
       </ion-card>
-
 
     </ion-card-content>
   </form>

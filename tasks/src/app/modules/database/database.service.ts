@@ -17,7 +17,6 @@ export class DatabaseService {
       title: newTask.title,
       date: newTask.date,
       description: newTask.description,
-      level: newTask.level,
       closed: false
     }));
   }

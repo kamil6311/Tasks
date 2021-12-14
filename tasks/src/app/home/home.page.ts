@@ -36,7 +36,6 @@ export class HomePage implements OnInit {
     }
   }
 
-
   public onAddTaskClick(): void{
     this._modalCtrl.create({
       component: AddTaskComponent,
