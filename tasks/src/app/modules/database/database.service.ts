@@ -21,8 +21,20 @@ export class DatabaseService {
     }));
   }
 
+  public removeTask(poTask: Task): Observable<any> {
+    return from(this._afDb.list('Tasks/').remove(poTask.id));
+  }
+
   public getTasks(): Observable<any> {
     return from(this._afDb.list('Tasks/').snapshotChanges(['child_added', 'child_removed']));
+  }
+
+  public setTaskChecked(poTask: Task, pbCheckValue: boolean): Observable<any> {
+    return from(this._afDb.list(`Tasks/`).update(poTask.id, { closed: pbCheckValue }));
+  }
+
+  public editTask(poEditedTask: Task): Observable<any> {
+    return from(this._afDb.list('Tasks/').update(poEditedTask.id, { title: poEditedTask.title, date: poEditedTask.date, description: poEditedTask.description}));
   }
 
 }

@@ -24,13 +24,10 @@ export class AddTaskComponent implements OnInit {
       time: new FormControl(new Date().toString(), {updateOn: 'change', validators: [Validators.required]}),
       description: new FormControl(null, {updateOn: 'change'}),
     });
-
   }
-
 
   public onAddTaskClose(): void {
     this.modalCtrl.dismiss();
-
   }
 
   public onAddTaskValidate(): void {

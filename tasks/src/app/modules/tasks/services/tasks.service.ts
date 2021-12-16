@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Task } from '../models/Task';
-import { take, tap } from 'rxjs/operators'
+import { concatMap, take, tap } from 'rxjs/operators'
 import { DatabaseService } from '../../database/database.service';
 
 @Injectable({
@@ -33,6 +33,7 @@ export class TasksService{
             date: action.payload.exportVal().date,
             closed: action.payload.exportVal().closed,
             description: action.payload.exportVal().description,
+            id: action.key
           });
         });
         this._tasks.next(updatedTasks);
@@ -40,12 +41,23 @@ export class TasksService{
     ).subscribe();
   }
 
+  public removeTask(poTask: Task): Observable<any>{
+    return this._dataBaseService.removeTask(poTask);
+  }
+
   public get tasks(): Observable<Task[]>{
     return this._tasks.asObservable();
   }
 
+  public setTaskChecked(poTask: Task, pbCheckedValue: boolean): Observable<any> {
+    return this._dataBaseService.setTaskChecked(poTask, pbCheckedValue);
+  }
 
+  public editTask(poEditedTask): Observable<any> {
+    return this._dataBaseService.editTask(poEditedTask).pipe(
+      tap(() => {
+        this.getTasks();
+      })
+    );
+  }
 }
-
-
-

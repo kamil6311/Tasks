@@ -5,6 +5,7 @@ export class Task {
     public date: string,
     public closed: boolean,
     public description?: string,
+    public id?: string,
   ){
   }
 
