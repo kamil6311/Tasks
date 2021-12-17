@@ -1,11 +1,10 @@
-.img-bg{
+.img-bg {
   padding: 1px;
   height: 100%;
   width: 100%;
-  background-image: url('../../assets/bg.jpg');
+  background-image: url("../../assets/bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-
 }
 
 .meteo {
@@ -13,8 +12,7 @@
   float: right;
 }
 
-
-.temp{
+.temp {
   color: white;
 }
 
@@ -32,21 +30,16 @@ h5 {
   text-transform: capitalize;
 }
 
-.add-btn{
+.add-btn {
   position: absolute;
   bottom: 20px;
   right: 20px;
 
-  ion-button{
+  ion-button {
     --border-radius: 50px;
     --background: #56b89f;
     --color: #ffffff;
     height: 8vh;
     width: 8vh;
   }
-}
-
-.container{
-  -webkit-filter: blur(3px);
-  opacity: .3;
 }

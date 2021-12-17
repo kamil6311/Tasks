@@ -4,5 +4,9 @@
             "source.organizeImports": true
         }
     },
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
     "typescript.updateImportsOnFileMove.enabled": "always",
+    "editor.formatOnSave": true
 }

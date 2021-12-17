@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { present } from '@ionic/core/dist/types/utils/overlays';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AddTaskComponent } from '../modules/tasks/components/addTask/add-task.component';
+import { AddTaskComponent } from '../modules/tasks/components/add-task/add-task.component';
 import { Weather } from '../modules/weather/models/weather';
 import { WeatherService } from '../modules/weather/services/weather.service';
 

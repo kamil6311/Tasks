@@ -1,9 +1,9 @@
 <ion-content>
   <ion-card *ngFor="let task of tasksList" style="margin: 10px" class="animate-opacity">
     <ion-item-sliding>
-
-      <ion-item lines="none" *ngIf='!isTaskEdited()'>
-        <ion-checkbox color="success" slot="start" [(ngModel)]="task.closed" (ionChange)='toggleTaskChange(task, $event)'></ion-checkbox>
+      <ion-item lines="none" *ngIf='!isTaskEdited()' button="true" (click)="selectTask(task)">
+        <ion-checkbox color="success" slot="start" [(ngModel)]="task.closed"
+          (ionChange)='toggleTaskChange(task, $event)'></ion-checkbox>
         <ion-label>
           <h2>{{ task.title }}</h2>
           <p>{{ task.date }}</p>
@@ -11,14 +11,14 @@
       </ion-item>
 
       <form *ngIf='isTaskEdited()' [formGroup]="editTaskForm" (ngSubmit)="validateTaskEdit(task)">
-        <ion-item lines="none" >
+        <ion-item lines="none">
           <ion-label>
             <ion-input formControlName="title"></ion-input>
           </ion-label>
-            <ion-datetime formControlName="date" displayFormat="HH:mm" value="{{ task.date }}"></ion-datetime>
-            <ion-button slot="end" type="submit">
-              <ion-icon name="checkmark"></ion-icon>
-            </ion-button>
+          <ion-datetime formControlName="date" displayFormat="HH:mm" value="{{ task.date }}"></ion-datetime>
+          <ion-button slot="end" type="submit">
+            <ion-icon name="checkmark"></ion-icon>
+          </ion-button>
         </ion-item>
       </form>
 
@@ -33,5 +33,3 @@
     </ion-item-sliding>
   </ion-card>
 </ion-content>
-
-

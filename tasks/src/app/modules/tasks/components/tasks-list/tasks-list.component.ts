@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IonItemSliding } from '@ionic/angular';
+import { IonItemSliding, ModalController } from '@ionic/angular';
 import { tap } from 'rxjs/operators';
 import { Task } from '../../models/Task';
 import { TasksService } from '../../services/tasks.service';
+import { TaskDetailComponent } from '../task-detail/task-detail.component';
 
 @Component({
   selector: 'app-tasks-list',
@@ -19,7 +20,7 @@ export class TasksListComponent implements OnInit {
   private mbTaskEdited: boolean = false;
 
   constructor(
-    private tasksService: TasksService
+    private tasksService: TasksService, private modalCtrl: ModalController
   ) { }
 
   public ngOnInit(): void {
@@ -59,6 +60,22 @@ export class TasksListComponent implements OnInit {
         this.mbTaskEdited = false;
       })
     ).subscribe();
+  }
+
+  public async selectTask(poSelectedTask: Task){
+    const modalTaskDetail = await this.modalCtrl.create({
+      component: TaskDetailComponent,
+      componentProps: { 'selectedTask': poSelectedTask }
+    });
+
+    modalTaskDetail.onDidDismiss().then((modalDetailTaskData) => {
+      if(modalDetailTaskData.data){
+        this.tasksService.editTask(modalDetailTaskData.data);
+        this.tasksService.getTasks();
+      }
+    });
+
+    return modalTaskDetail.present();
   }
 
 }

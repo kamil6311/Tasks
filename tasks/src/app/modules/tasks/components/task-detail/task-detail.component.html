@@ -1,3 +1,42 @@
-<p>
-  task-detail works!
-</p>
+<ion-content class="add-task-container">
+  <ion-card>
+    <form [formGroup]="taskForm" (ngSubmit)="closeTaskDetailModal()">
+      <ion-card-subtitle>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button type="submit" [disabled]="!taskForm.valid">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-title>{{ titleInput.value }}</ion-title>
+        </ion-toolbar>
+      </ion-card-subtitle>
+
+      <ion-card-content style="text-align: center;">
+        <ion-card>
+          <ion-card-title class="task-title">
+            <ion-label>Titre</ion-label>
+          </ion-card-title>
+          <ion-card-header>
+            <ion-input placeholder="Titre de la tâche" #titleInput formControlName="title"></ion-input>
+          </ion-card-header>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-subtitle>
+            <ion-label>Horaire</ion-label>
+          </ion-card-subtitle>
+          <ion-datetime displayFormat="HH:mm" formControlName="time"></ion-datetime>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-subtitle>Description</ion-card-subtitle>
+          <ion-card-content class="description-content">
+            <ion-textarea placeholder="Ajouter une description" formControlName="description"></ion-textarea>
+          </ion-card-content>
+        </ion-card>
+
+      </ion-card-content>
+    </form>
+  </ion-card>
+</ion-content>
