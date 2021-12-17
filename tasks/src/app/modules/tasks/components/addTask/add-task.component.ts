@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IonSelect, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Task } from '../../models/Task';
 import { TasksService } from '../../services/tasks.service';
 

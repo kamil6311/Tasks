@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
-import { TasksComponent } from './components/tasks/tasks.component';
-import { TasksListComponent } from './components/tasksList/tasks-list.component';
-import { AddTaskComponent } from './components/addTask/add-task.component';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { AddTaskComponent } from './components/addTask/add-task.component';
+import { TasksListComponent } from './components/tasks-list/tasks-list.component';
+import { TasksComponent } from './components/tasks/tasks.component';
 
 
 @NgModule({

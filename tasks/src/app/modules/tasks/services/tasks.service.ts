@@ -1,7 +1,7 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Task } from '../models/Task';
-import { concatMap, take, tap } from 'rxjs/operators'
+import { tap } from 'rxjs/operators'
 import { DatabaseService } from '../../database/database.service';
 
 @Injectable({

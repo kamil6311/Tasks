@@ -34,7 +34,7 @@ export class DatabaseService {
   }
 
   public editTask(poEditedTask: Task): Observable<any> {
-    return from(this._afDb.list('Tasks/').update(poEditedTask.id, { title: poEditedTask.title, date: poEditedTask.date, description: poEditedTask.description}));
+    return from(this._afDb.list('Tasks/').update(poEditedTask.id, { title: poEditedTask.title, date: poEditedTask.date}));
   }
 
 }

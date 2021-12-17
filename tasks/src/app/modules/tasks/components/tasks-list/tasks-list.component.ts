@@ -1,9 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IonItemSliding } from '@ionic/angular';
+import { tap } from 'rxjs/operators';
 import { Task } from '../../models/Task';
 import { TasksService } from '../../services/tasks.service';
-import { take, tap } from 'rxjs/operators'
-import { IonInput, IonItemSliding } from '@ionic/angular';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-tasks-list',
@@ -52,10 +52,13 @@ export class TasksListComponent implements OnInit {
   }
 
   public validateTaskEdit(poTask: Task): void {
-    this.mbTaskEdited = false;
     const editedTaskData = this.editTaskForm.value;
     const newTask = new Task(editedTaskData.title, editedTaskData.date, poTask.closed, '', poTask.id);
-    this.tasksService.editTask(newTask).subscribe();
+    this.tasksService.editTask(newTask).pipe(
+      tap(() => {
+        this.mbTaskEdited = false;
+      })
+    ).subscribe();
   }
 
 }
