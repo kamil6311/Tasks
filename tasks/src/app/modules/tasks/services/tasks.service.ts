@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Task } from '../models/Task';
-import { tap } from 'rxjs/operators'
+import { map, tap } from 'rxjs/operators';
 import { DatabaseService } from '../../database/database.service';
+import { Task } from '../models/Task';
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +46,13 @@ export class TasksService{
   }
 
   public get tasks(): Observable<Task[]>{
-    return this._tasks.asObservable();
+    return this._tasks.asObservable().pipe(
+      map((taskList: Task[]) => {
+        return taskList.sort((taskA: Task, taskB: Task) => {
+          return new Date(new Date().setHours(+taskA.date.substring(0, 2), +taskA.date.substring(3, 5))).getTime() - new Date(new Date().setHours(+taskB.date.substring(0, 2), +taskB.date.substring(3, 5))).getTime()
+        });
+      })
+    );
   }
 
   public setTaskChecked(poTask: Task, pbCheckedValue: boolean): Observable<any> {
