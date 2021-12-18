@@ -36,7 +36,4 @@ export class AddTaskComponent implements OnInit {
     this.tasksService.addTask(new Task(taskFormData.title, new Date(taskFormData.time).toTimeString().substring(0, 5), false, taskFormData.description))
     .subscribe(() => this.modalCtrl.dismiss());
   }
-
-
-
 }
