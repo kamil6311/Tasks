@@ -8,7 +8,7 @@
               <ion-icon name="close"></ion-icon>
             </ion-button>
           </ion-buttons>
-          <ion-title>{{ titleInput.value }}</ion-title>
+          <ion-title [textContent]="psTaskTitle"></ion-title>
         </ion-toolbar>
       </ion-card-subtitle>
 
@@ -18,7 +18,8 @@
             <ion-label>Titre</ion-label>
           </ion-card-title>
           <ion-card-header>
-            <ion-input placeholder="Titre de la tâche" #titleInput formControlName="title"></ion-input>
+            <ion-input placeholder="Titre de la tâche" formControlName="title" (ionChange)="changeTitle($event)">
+            </ion-input>
           </ion-card-header>
         </ion-card>
 

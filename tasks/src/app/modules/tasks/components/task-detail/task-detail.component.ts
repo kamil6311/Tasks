@@ -13,6 +13,7 @@ export class TaskDetailComponent implements OnInit {
   @Input() selectedTask: Task;
 
   public taskForm: FormGroup;
+  public psTaskTitle: string;
 
   constructor(private modalCtrl: ModalController) { }
 
@@ -24,6 +25,8 @@ export class TaskDetailComponent implements OnInit {
       description: new FormControl(this.selectedTask.description, {updateOn: 'change'}),
     });
 
+    this.psTaskTitle = this.taskForm.value.title;
+
   }
 
   public closeTaskDetailModal(): void {
@@ -34,6 +37,10 @@ export class TaskDetailComponent implements OnInit {
       this.modalCtrl.dismiss(editedTask);
     }
     this.modalCtrl.dismiss();
+  }
+
+  public changeTitle(psTitleValue: CustomEvent<{value: string}>) {
+    this.psTaskTitle = psTitleValue.detail.value;
   }
 
 }

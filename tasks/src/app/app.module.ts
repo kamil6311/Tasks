@@ -1,16 +1,12 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
-import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireDatabaseModule  } from '@angular/fire/compat/database'
-
-import { HttpClientModule } from '@angular/common/http';
+import { AppComponent } from './app.component';
 
 
 const firebaseConfig = {
