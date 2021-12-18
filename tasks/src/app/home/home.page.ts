@@ -77,6 +77,9 @@ export class HomePage implements OnInit {
           if(currentWeather.weather.includes('sun')){
             this.weatherIcon = 'sunny-outline';
           }
+          if(new Date().getUTCHours() > 19) {
+            this.weatherIcon = 'cloudy-night-outline';
+          }
         }
       })
     );
