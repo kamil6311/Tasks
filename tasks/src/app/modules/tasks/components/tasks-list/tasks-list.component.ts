@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { IonItemSliding, ModalController } from '@ionic/angular';
 import { from, interval } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
@@ -18,7 +18,6 @@ export class TasksListComponent implements OnInit {
   public tasksList: Task[];
   public editTaskForm: FormGroup;
 
-  private mbTaskEdited: boolean = false;
   private checkTaskClicked: boolean;
 
   constructor(
@@ -38,31 +37,15 @@ export class TasksListComponent implements OnInit {
   }
 
   public editTask(poTask: Task){
-    this.mbTaskEdited = true;
+    this.selectTask(poTask);
     this.slidingItem.close();
-    this.editTaskForm = new FormGroup({
-      title: new FormControl(poTask.title, { updateOn: 'change', validators: [Validators.required] }),
-      date: new FormControl(poTask.date, { updateOn: 'change', validators: [Validators.required] })
-    });
   }
 
-  public isTaskEdited(): boolean {
-    return this.mbTaskEdited;
-  }
 
   public toggleTaskChange(poTask: Task, pbEvent: CustomEvent<{checked: boolean}>){
     this.tasksService.setTaskChecked(poTask, pbEvent.detail.checked);
   }
 
-  public validateTaskEdit(poTask: Task): void {
-    const editedTaskData = this.editTaskForm.value;
-    const newTask = new Task(editedTaskData.title, editedTaskData.date, poTask.closed, '', poTask.id);
-    this.tasksService.editTask(newTask).pipe(
-      tap(() => {
-        this.mbTaskEdited = false;
-      })
-    ).subscribe();
-  }
 
   public async selectTask(poSelectedTask: Task){
     if(!this.checkTaskClicked){
