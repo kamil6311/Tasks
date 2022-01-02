@@ -3,6 +3,11 @@
     <ion-title>
       Tâches
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openSettings()">
+        <ion-icon name="build-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -14,7 +19,7 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <div class="img-bg">
+  <div class="img-bg" style="background-image: url({{userBackgroundImageUrl}})">
     <div style="display: flex; padding-left: 6%; padding-top: 3%;">
       <ion-icon class="weather-icon" size="large" [name]="weatherIcon" color="warning"></ion-icon>
       <ion-label class="temp">{{ currentMeteoTemperature }} °C</ion-label>

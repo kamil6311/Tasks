@@ -1,8 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { DatabaseService } from '../modules/database/database.service';
 import { AddTaskComponent } from '../modules/tasks/components/add-task/add-task.component';
+import { SettingsComponent } from '../modules/tasks/components/settings/settings.component';
 import { Weather } from '../modules/weather/models/weather';
 import { WeatherService } from '../modules/weather/services/weather.service';
 
@@ -14,13 +17,15 @@ import { WeatherService } from '../modules/weather/services/weather.service';
 export class HomePage implements OnInit {
 
   public currentDate: string = new Date().toLocaleDateString('fr-FR', {weekday: 'long', month: 'long', day: 'numeric'});
-  public modalOpened: boolean = false;
-  public weatherIcon: string = 'partly-sunny-outline';
+  public modalOpened = false;
+  public weatherIcon = 'partly-sunny-outline';
   public currentMeteoTemperature: number;
+  public userBackgroundImageUrl: string = "../../assets/bg.jpg";
 
   constructor(
     private _modalCtrl: ModalController,
-    private _weatherService: WeatherService
+    private _weatherService: WeatherService,
+    private _databse: DatabaseService
   ) {}
 
   public ngOnInit(): void {
@@ -33,6 +38,10 @@ export class HomePage implements OnInit {
         this._weatherService.setCurrentWeather(position.coords.latitude, position.coords.longitude);
       })
     }
+
+    this._databse.getBackground().pipe(
+      tap((resultUrl: string) => this.userBackgroundImageUrl = resultUrl),
+    ).subscribe();
   }
 
   public onAddTaskClick(): void{
@@ -56,6 +65,23 @@ export class HomePage implements OnInit {
         event.target.complete();
       }
     );
+    this._databse.getBackground().pipe(
+      tap((resultUrl: string) => this.userBackgroundImageUrl = resultUrl)
+    ).subscribe();
+  }
+
+  public openSettings(): void {
+    this._modalCtrl.create({
+      component: SettingsComponent,
+      swipeToClose: true
+    }).then(modal => {
+      modal.present();
+      modal.onDidDismiss().then(() => {
+        this._databse.getBackground().pipe(
+          tap((resultUrl: string) => this.userBackgroundImageUrl = resultUrl)
+        ).subscribe();
+      });
+    })
   }
 
   private getCurrentWeather(): Observable<any> {

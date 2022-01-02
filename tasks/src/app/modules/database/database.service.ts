@@ -1,5 +1,8 @@
+/* eslint-disable max-len */
+/* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { from, Observable } from 'rxjs';
 import { Task } from '../tasks/models/Task';
 
@@ -9,7 +12,8 @@ import { Task } from '../tasks/models/Task';
 export class DatabaseService {
 
   constructor(
-    private _afDb: AngularFireDatabase
+    private _afDb: AngularFireDatabase,
+    private _afSt: AngularFireStorage
   ) { }
 
   public addTask(newTask: Task): Observable<any> {
@@ -17,7 +21,7 @@ export class DatabaseService {
       title: newTask.title,
       date: newTask.date,
       description: newTask.description,
-      closed: false
+           closed: false
     }));
   }
 
@@ -37,4 +41,11 @@ export class DatabaseService {
     return from(this._afDb.list('Tasks/').update(poEditedTask.id, { title: poEditedTask.title, date: poEditedTask.date, description: poEditedTask.description }));
   }
 
+  public saveBackground(poImageBg: File): Observable<any> {
+    return from(this._afSt.upload("/imageBg/background", poImageBg));
+  }
+
+  public getBackground(): Observable<string> {
+    return from(this._afSt.ref("/imageBg/background").getDownloadURL());
+  }
 }

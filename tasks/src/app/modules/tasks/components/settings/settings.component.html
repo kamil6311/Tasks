@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-title>
+      Paramètres
+    </ion-title>
+    <ion-buttons>
+      <ion-button (click)="validateSettings()">
+        <ion-icon name="checkmark-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="ion-text-center">
+    <ion-card-title>Image de fond</ion-card-title>
+    <ion-card-content>
+      <input type="file" multiple="false" accept="image/png, image/gif, image/jpeg" (change)="onFileSelected($event)">
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>
