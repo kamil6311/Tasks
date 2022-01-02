@@ -1,11 +1,15 @@
 <ion-header>
   <ion-toolbar>
-
+    <ion-buttons slot="start">
+      <ion-button (click)="cancelSettings()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>
       Paramètres
     </ion-title>
-    <ion-buttons>
-      <ion-button (click)="validateSettings()">
+    <ion-buttons slot="end">
+      <ion-button (click)="validateSettings()" [disabled]="!selectedFile">
         <ion-icon name="checkmark-outline"></ion-icon>
       </ion-button>
     </ion-buttons>

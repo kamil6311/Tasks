@@ -10,8 +10,9 @@ import { DatabaseService } from 'src/app/modules/database/database.service';
 })
 export class SettingsComponent implements OnInit {
 
-  private selectedFile: File;
   private loading: HTMLIonLoadingElement;
+
+  public selectedFile: File = null;
 
   constructor(private _database: DatabaseService, private _modalCtrl: ModalController, private _loadingCtrl: LoadingController) { }
 
@@ -38,6 +39,10 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  public cancelSettings(): void {
+    this._modalCtrl.dismiss();
+  }
+
   private async presetLoading(){
     this.loading = await this._loadingCtrl.create({
       message: "Enregistrement en cours..."
@@ -45,5 +50,4 @@ export class SettingsComponent implements OnInit {
 
     this.loading.present();
   }
-
 }
