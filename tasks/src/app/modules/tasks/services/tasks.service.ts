@@ -1,9 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { plainToClass } from 'class-transformer';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { DatabaseService } from '../../database/database.service';
+import { ITask } from '../models/ITask';
 import { Task } from '../models/Task';
+
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +72,10 @@ export class TasksService{
   }
 
   public getTodos(): Observable<Task[]> {
-    return this._http.get<Task[]>("http://localhost:3000/todos");
+    return this._http.get<ITask[]>("http://localhost:3000/todos").pipe(
+      tap((result: ITask[]) => {
+        return result.map((res: ITask) => plainToClass(Task, res));
+      })
+    );
   }
 }

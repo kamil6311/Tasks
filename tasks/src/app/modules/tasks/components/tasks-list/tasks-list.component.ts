@@ -25,10 +25,8 @@ export class TasksListComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.tasksService.tasks.pipe(
-      tap((tasks: Task[]) => {
-        this.tasksList = tasks;
-      })
+    this.tasksService.getTodos().pipe(
+      tap((resultData: Task[]) => this.tasksList = resultData)
     ).subscribe();
   }
 

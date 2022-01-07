@@ -45,7 +45,6 @@ export class HomePage implements OnInit {
       tap((resultUrl: string) => this.userBackgroundImageUrl = resultUrl),
     ).subscribe();
 
-      this._taskService.getTodos().pipe(tap(res => console.log(res))).subscribe();
   }
 
   public onAddTaskClick(): void{

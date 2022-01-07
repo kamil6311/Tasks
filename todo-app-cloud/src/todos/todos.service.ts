@@ -22,7 +22,7 @@ export class TodosService {
         const todos = await this._todoModel.find().exec();
 
         return todos.map((resultTodo) => (
-            {_id: resultTodo.id, title: resultTodo.title, description: resultTodo.description, closed: resultTodo.closed, date: resultTodo.date}
+            {id: resultTodo.id, title: resultTodo.title, description: resultTodo.description, closed: resultTodo.closed, date: resultTodo.date}
         ));
     }
 
@@ -31,7 +31,7 @@ export class TodosService {
         if(!todo){
             throw new NotFoundException("Could not find this todo");
         }
-        return {_id: todo.id, title: todo.title, description: todo.description, closed: todo.closed, date: todo.date};
+        return {id: todo.id, title: todo.title, description: todo.description, closed: todo.closed, date: todo.date};
     }
 
     public async deleteTodo(psId: string): Promise<boolean> {

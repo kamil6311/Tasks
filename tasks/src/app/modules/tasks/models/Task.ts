@@ -1,5 +1,6 @@
+import { ITask } from "./ITask";
 
-export class Task {
+export class Task implements ITask{
   constructor(
     public title: string,
     public date: string,

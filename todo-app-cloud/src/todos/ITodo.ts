@@ -8,7 +8,7 @@ export const TodoSchema = new mongoose.Schema({
 });
 
 export interface ITodo {
-    _id: string;
+    id: string;
     
     title: string;
 
