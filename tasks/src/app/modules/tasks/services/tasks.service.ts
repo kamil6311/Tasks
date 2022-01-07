@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -11,7 +12,7 @@ export class TasksService{
   private _tasks = new BehaviorSubject<Task[]>([]);
 
   constructor(
-    private _dataBaseService: DatabaseService
+    private _dataBaseService: DatabaseService, private _http: HttpClient
   ) {
     this.getTasks();
   }
@@ -65,5 +66,9 @@ export class TasksService{
         this.getTasks();
       })
     );
+  }
+
+  public getTodos(): Observable<Task[]> {
+    return this._http.get<Task[]>("http://localhost:3000/todos");
   }
 }

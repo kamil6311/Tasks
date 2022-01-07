@@ -6,6 +6,7 @@ import { tap } from 'rxjs/operators';
 import { DatabaseService } from '../modules/database/database.service';
 import { AddTaskComponent } from '../modules/tasks/components/add-task/add-task.component';
 import { SettingsComponent } from '../modules/tasks/components/settings/settings.component';
+import { TasksService } from '../modules/tasks/services/tasks.service';
 import { Weather } from '../modules/weather/models/weather';
 import { WeatherService } from '../modules/weather/services/weather.service';
 
@@ -25,7 +26,8 @@ export class HomePage implements OnInit {
   constructor(
     private _modalCtrl: ModalController,
     private _weatherService: WeatherService,
-    private _databse: DatabaseService
+    private _databse: DatabaseService,
+    private _taskService: TasksService
   ) {}
 
   public ngOnInit(): void {
@@ -42,6 +44,8 @@ export class HomePage implements OnInit {
     this._databse.getBackground().pipe(
       tap((resultUrl: string) => this.userBackgroundImageUrl = resultUrl),
     ).subscribe();
+
+      this._taskService.getTodos().pipe(tap(res => console.log(res))).subscribe();
   }
 
   public onAddTaskClick(): void{

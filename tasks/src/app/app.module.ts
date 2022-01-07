@@ -9,8 +9,6 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-
-
 const firebaseConfig = {
   apiKey: "AIzaSyAINqy6iZE94BNnwka4BRnScg9JgmpPebc",
   authDomain: "tasks-b180c.firebaseapp.com",
