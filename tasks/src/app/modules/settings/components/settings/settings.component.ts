@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { tap } from 'rxjs/operators';
 import { DatabaseService } from 'src/app/modules/database/database.service';
+import { SettingsService } from '../../services/settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -11,26 +12,37 @@ import { DatabaseService } from 'src/app/modules/database/database.service';
 export class SettingsComponent implements OnInit {
 
   private loading: HTMLIonLoadingElement;
+  private base64ImageString: string;
 
   public selectedFile: File = null;
 
-  constructor(private _database: DatabaseService, private _modalCtrl: ModalController, private _loadingCtrl: LoadingController) { }
+  constructor(private _database: DatabaseService, private _settingsService: SettingsService, private _modalCtrl: ModalController, private _loadingCtrl: LoadingController) { }
 
-  public ngOnInit() {}
+  public ngOnInit() {
+  }
 
-  public onFileSelected(poFileEvent): void {
+  public async onFileSelected(poFileEvent): Promise<void> {
     this.selectedFile = poFileEvent.target.files[0];
-    console.log(this.selectedFile);
+    const reader = new FileReader();
+
+    reader.onload = this.handleReaderLoaded.bind(this);
+    reader.readAsDataURL(this.selectedFile);
+  }
+
+  public handleReaderLoaded(e){
+    this.base64ImageString = (e.target.result);
   }
 
   public async validateSettings(){
+
     if(this.selectedFile){
       await this.presetLoading();
-
-      this._database.saveBackground(this.selectedFile).pipe(
-        tap(async () => {
-          this.loading.dismiss();
-          this._modalCtrl.dismiss()
+      this._settingsService.saveBackgroundImage(this.base64ImageString).pipe(
+        tap((result: string) => {
+          if(result){
+            this.loading.dismiss();
+            this._modalCtrl.dismiss();
+          }
         })
       ).subscribe();
     }
@@ -51,3 +63,4 @@ export class SettingsComponent implements OnInit {
     this.loading.present();
   }
 }
+

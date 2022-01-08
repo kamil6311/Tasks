@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-import { HttpService } from '@nestjs/axios/dist/http.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -8,7 +7,7 @@ import { ITodo } from './ITodo';
 @Injectable()
 export class TodosService {
 
-    constructor(private _http: HttpService, @InjectModel('Todo') private readonly _todoModel: Model<ITodo>){}
+    constructor(@InjectModel('Todo') private readonly _todoModel: Model<ITodo>){}
 
     public async createTodo(psTitle: string, psDescription: string, pbClosed: boolean, psDate: string): Promise<string>{
         const todoId = Math.random().toString();

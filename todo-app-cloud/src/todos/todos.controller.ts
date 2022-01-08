@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { ApiBody, ApiCreatedResponse, ApiParam, ApiSecurity } from '@nestjs/swagger';
+import { ApiBody, ApiCreatedResponse, ApiParam, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { ITodo } from './ITodo';
 import { TodoDTO } from './TodoDTO';
 import { TodosService } from './todos.service';
 
 @Controller('todos')
 @ApiSecurity('apiKey')
+@ApiTags('Todos')
 export class TodosController {
     
     constructor(private readonly _todosService: TodosService) {}

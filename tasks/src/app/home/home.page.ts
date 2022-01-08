@@ -4,8 +4,10 @@ import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { DatabaseService } from '../modules/database/database.service';
+import { SettingsComponent } from '../modules/settings/components/settings/settings.component';
+import { BgImage } from '../modules/settings/models/BgImage';
+import { SettingsService } from '../modules/settings/services/settings.service';
 import { AddTaskComponent } from '../modules/tasks/components/add-task/add-task.component';
-import { SettingsComponent } from '../modules/tasks/components/settings/settings.component';
 import { TasksComponent } from '../modules/tasks/components/tasks/tasks.component';
 import { Weather } from '../modules/weather/models/weather';
 import { WeatherService } from '../modules/weather/services/weather.service';
@@ -29,6 +31,7 @@ export class HomePage implements OnInit {
     private _modalCtrl: ModalController,
     private _weatherService: WeatherService,
     private _databse: DatabaseService,
+    private _settingsService: SettingsService
   ) {}
 
   public ngOnInit(): void {
@@ -42,10 +45,7 @@ export class HomePage implements OnInit {
       })
     }
 
-    this._databse.getBackground().pipe(
-      tap((resultUrl: string) => this.userBackgroundImageUrl = resultUrl),
-    ).subscribe();
-
+    this.getBackground().subscribe();
   }
 
   public onAddTaskClick(): void{
@@ -70,9 +70,8 @@ export class HomePage implements OnInit {
         event.target.complete();
       }
     );
-    this._databse.getBackground().pipe(
-      tap((resultUrl: string) => this.userBackgroundImageUrl = resultUrl)
-    ).subscribe();
+
+    this.getBackground().subscribe();
 
     this.appTaskChild.refreshTasks();
   }
@@ -84,11 +83,17 @@ export class HomePage implements OnInit {
     }).then(modal => {
       modal.present();
       modal.onDidDismiss().then(() => {
-        this._databse.getBackground().pipe(
-          tap((resultUrl: string) => this.userBackgroundImageUrl = resultUrl)
-        ).subscribe();
+        this.getBackground().subscribe();
       });
     })
+  }
+
+  private getBackground(): Observable<BgImage>{
+    return this._settingsService.getBackgroundImage().pipe(
+      tap((result: BgImage) => {
+        this.userBackgroundImageUrl = result.base64String;
+      })
+    );
   }
 
   private getCurrentWeather(): Observable<any> {

@@ -2,19 +2,19 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { SettingsModule } from '../settings/settings.module';
 import { AddTaskComponent } from './components/add-task/add-task.component';
-import { SettingsComponent } from './components/settings/settings.component';
 import { TaskDetailComponent } from './components/task-detail/task-detail.component';
 import { TasksListComponent } from './components/tasks-list/tasks-list.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 
 
 @NgModule({
-  declarations: [TasksComponent, TasksListComponent, AddTaskComponent, TaskDetailComponent, SettingsComponent],
+  declarations: [TasksComponent, TasksListComponent, AddTaskComponent, TaskDetailComponent],
   imports: [
-    CommonModule,IonicModule, FormsModule, ReactiveFormsModule
+    CommonModule, IonicModule, FormsModule, ReactiveFormsModule, SettingsModule
   ],
-  exports: [TasksComponent, TasksListComponent, AddTaskComponent, TaskDetailComponent, SettingsComponent],
+  exports: [TasksComponent, TasksListComponent, AddTaskComponent, TaskDetailComponent],
 
 })
 export class TasksModule { }

@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { SettingsModule } from '../modules/settings/settings.module';
+import { TasksModule } from '../modules/tasks/tasks.module';
+import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 
-import { HomePageRoutingModule } from './home-routing.module';
-import { TasksModule } from '../modules/tasks/tasks.module';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { TasksModule } from '../modules/tasks/tasks.module';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    TasksModule
+    TasksModule,
+    SettingsModule
   ],
   declarations: [HomePage]
 })
