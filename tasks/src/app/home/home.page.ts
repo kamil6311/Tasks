@@ -3,13 +3,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { DatabaseService } from '../modules/database/database.service';
 import { SettingsComponent } from '../modules/settings/components/settings/settings.component';
 import { BgImage } from '../modules/settings/models/BgImage';
 import { SettingsService } from '../modules/settings/services/settings.service';
 import { AddTaskComponent } from '../modules/tasks/components/add-task/add-task.component';
 import { TasksComponent } from '../modules/tasks/components/tasks/tasks.component';
-import { Weather } from '../modules/weather/models/weather';
+import { Weather } from '../modules/weather/models/Weather';
 import { WeatherService } from '../modules/weather/services/weather.service';
 
 @Component({
@@ -30,7 +29,6 @@ export class HomePage implements OnInit {
   constructor(
     private _modalCtrl: ModalController,
     private _weatherService: WeatherService,
-    private _databse: DatabaseService,
     private _settingsService: SettingsService
   ) {}
 

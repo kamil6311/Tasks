@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { tap } from 'rxjs/operators';
-import { DatabaseService } from 'src/app/modules/database/database.service';
 import { SettingsService } from '../../services/settings.service';
 
 @Component({
@@ -16,7 +15,7 @@ export class SettingsComponent implements OnInit {
 
   public selectedFile: File = null;
 
-  constructor(private _database: DatabaseService, private _settingsService: SettingsService, private _modalCtrl: ModalController, private _loadingCtrl: LoadingController) { }
+  constructor(private _settingsService: SettingsService, private _modalCtrl: ModalController, private _loadingCtrl: LoadingController) { }
 
   public ngOnInit() {
   }

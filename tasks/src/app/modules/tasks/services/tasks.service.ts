@@ -4,7 +4,6 @@ import { plainToClass } from 'class-transformer';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { DatabaseService } from '../../database/database.service';
 import { ITask } from '../models/ITask';
 import { Task } from '../models/Task';
 
@@ -16,7 +15,7 @@ export class TasksService{
   private _tasks = new BehaviorSubject<Task[]>([]);
 
   constructor(
-    private _dataBaseService: DatabaseService, private _http: HttpClient
+    private _http: HttpClient
   ) { }
 
 
