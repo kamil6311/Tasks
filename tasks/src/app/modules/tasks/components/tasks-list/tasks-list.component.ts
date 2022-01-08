@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IonItemSliding, ModalController } from '@ionic/angular';
-import { from, interval } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { from, interval, Observable } from 'rxjs';
+import { concatMap, take, tap } from 'rxjs/operators';
 import { Task } from '../../models/Task';
 import { TasksService } from '../../services/tasks.service';
 import { TaskDetailComponent } from '../task-detail/task-detail.component';
@@ -25,13 +25,13 @@ export class TasksListComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.tasksService.getTodos().pipe(
-      tap((resultData: Task[]) => this.tasksList = resultData)
-    ).subscribe();
+    this.getTodos().subscribe();
   }
 
   public deleteTask(poTask: Task){
-    this.tasksService.removeTask(poTask).subscribe();
+    this.tasksService.removeTask(poTask).pipe(
+      concatMap(() => this.getTodos())
+    ).subscribe();
   }
 
   public editTask(poTask: Task){
@@ -39,11 +39,10 @@ export class TasksListComponent implements OnInit {
     this.slidingItem.close();
   }
 
-
   public toggleTaskChange(poTask: Task, pbEvent: CustomEvent<{checked: boolean}>){
-    this.tasksService.setTaskChecked(poTask, pbEvent.detail.checked);
+    poTask.closed = pbEvent.detail.checked;
+    this.tasksService.editTask(poTask).subscribe();
   }
-
 
   public async selectTask(poSelectedTask: Task){
     if(!this.checkTaskClicked){
@@ -54,8 +53,9 @@ export class TasksListComponent implements OnInit {
 
       modalTaskDetail.onDidDismiss().then((modalDetailTaskData) => {
         if(modalDetailTaskData.data){
-          this.tasksService.editTask(modalDetailTaskData.data);
-          this.tasksService.getTasks();
+          this.tasksService.editTask(modalDetailTaskData.data).pipe(
+            concatMap(() => this.getTodos())
+          ).subscribe();
         }
       });
 
@@ -63,7 +63,7 @@ export class TasksListComponent implements OnInit {
     }
   }
 
-  public checkTask(poSelectedTask: Task): void {
+  public checkTask(): void {
     this.checkTaskClicked = true;
     from(interval(100).pipe(
       take(1),
@@ -71,6 +71,12 @@ export class TasksListComponent implements OnInit {
         complete: () => { this.checkTaskClicked = false; }
       })
     )).subscribe();
+  }
+
+  public getTodos(): Observable<Task[]> {
+    return this.tasksService.getTodos().pipe(
+      tap((resultData: Task[]) => this.tasksList = resultData)
+    );
   }
 
 }
