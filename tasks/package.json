@@ -21,13 +21,15 @@
     "@angular/platform-browser-dynamic": "~12.1.1",
     "@angular/router": "~12.1.1",
     "@ionic/angular": "^5.5.2",
+    "body-parser": "^1.19.1",
     "class-transformer": "^0.5.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
     "firebase": "^9.6.1",
+    "morgan": "^1.10.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
-    "zone.js": "~0.11.4"
-  },
-  "devDependencies": {
+    "zone.js": "~0.11.4",
     "@angular-devkit/build-angular": "~12.1.1",
     "@angular-eslint/builder": "~12.0.0",
     "@angular-eslint/eslint-plugin": "~12.0.0",
@@ -66,6 +68,8 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "typescript": "~4.2.4"
+  },
+  "devDependencies": {
   },
   "description": "An Ionic project",
   "cordova": {
