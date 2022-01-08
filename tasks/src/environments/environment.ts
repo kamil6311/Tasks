@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  weatherApiKey: 'd31323e1c605c6ae6151098d6b52fa68'
-
+  weatherApiKey: 'd31323e1c605c6ae6151098d6b52fa68',
+  cloud_url: 'https://todo-api-node-nest.herokuapp.com',
 };
 
 /*

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { plainToClass } from 'class-transformer';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { DatabaseService } from '../../database/database.service';
 import { ITask } from '../models/ITask';
 import { Task } from '../models/Task';
@@ -72,7 +73,7 @@ export class TasksService{
   }
 
   public getTodos(): Observable<Task[]> {
-    return this._http.get<ITask[]>("http://localhost:3000/todos").pipe(
+    return this._http.get<ITask[]>(`${environment.cloud_url}/todos`).pipe(
       tap((result: ITask[]) => {
         return result.map((res: ITask) => plainToClass(Task, res));
       })
