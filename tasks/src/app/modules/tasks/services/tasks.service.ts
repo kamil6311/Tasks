@@ -73,7 +73,7 @@ export class TasksService{
   }
 
   public getTodos(): Observable<Task[]> {
-    return this._http.get<ITask[]>(`${environment.cloud_url}/todos`).pipe(
+    return this._http.get<ITask[]>(`${environment.cloud_url}/todos`, {headers: {'apiKey': environment.todo_apiKey}}).pipe(
       tap((result: ITask[]) => {
         return result.map((res: ITask) => plainToClass(Task, res));
       })
