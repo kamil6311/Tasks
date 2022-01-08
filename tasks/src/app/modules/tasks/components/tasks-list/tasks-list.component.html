@@ -2,7 +2,7 @@
   <ion-item-sliding>
     <ion-item lines="none" button="true" (click)="selectTask(task)">
       <ion-checkbox color="success" slot="start" [(ngModel)]="task.closed" (ionChange)='toggleTaskChange(task, $event)'
-        (click)="checkTask(task)"></ion-checkbox>
+        (click)="checkTask()"></ion-checkbox>
       <ion-label>
         <h2>{{ task.title }}</h2>
         <p>{{ task.date }}</p>

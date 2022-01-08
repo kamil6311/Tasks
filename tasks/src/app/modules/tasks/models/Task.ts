@@ -7,8 +7,7 @@ export class Task implements ITask{
     public closed: boolean,
     public description?: string,
     public id?: string,
-  ){
-  }
+  ){}
 
 }
 

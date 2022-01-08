@@ -1,12 +1,12 @@
 /* eslint-disable no-underscore-dangle */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { DatabaseService } from '../modules/database/database.service';
 import { AddTaskComponent } from '../modules/tasks/components/add-task/add-task.component';
 import { SettingsComponent } from '../modules/tasks/components/settings/settings.component';
-import { TasksService } from '../modules/tasks/services/tasks.service';
+import { TasksComponent } from '../modules/tasks/components/tasks/tasks.component';
 import { Weather } from '../modules/weather/models/weather';
 import { WeatherService } from '../modules/weather/services/weather.service';
 
@@ -16,6 +16,8 @@ import { WeatherService } from '../modules/weather/services/weather.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+
+  @ViewChild(TasksComponent) private appTaskChild: TasksComponent
 
   public currentDate: string = new Date().toLocaleDateString('fr-FR', {weekday: 'long', month: 'long', day: 'numeric'});
   public modalOpened = false;
@@ -27,7 +29,6 @@ export class HomePage implements OnInit {
     private _modalCtrl: ModalController,
     private _weatherService: WeatherService,
     private _databse: DatabaseService,
-    private _taskService: TasksService
   ) {}
 
   public ngOnInit(): void {
@@ -56,6 +57,7 @@ export class HomePage implements OnInit {
         this.modalOpened = true;
         modal.onDidDismiss().then((data) => {
           this.modalOpened = false;
+          this.appTaskChild.refreshTasks();
         })
       }
     )
@@ -71,6 +73,8 @@ export class HomePage implements OnInit {
     this._databse.getBackground().pipe(
       tap((resultUrl: string) => this.userBackgroundImageUrl = resultUrl)
     ).subscribe();
+
+    this.appTaskChild.refreshTasks();
   }
 
   public openSettings(): void {

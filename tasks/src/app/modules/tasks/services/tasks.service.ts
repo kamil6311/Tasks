@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { plainToClass } from 'class-transformer';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DatabaseService } from '../../database/database.service';
 import { ITask } from '../models/ITask';
@@ -17,59 +17,24 @@ export class TasksService{
 
   constructor(
     private _dataBaseService: DatabaseService, private _http: HttpClient
-  ) {
-    this.getTasks();
+  ) { }
+
+
+  public addTask(newTask: Task): Observable<string>{
+    return this._http.post<string>(`${environment.cloud_url}/todos/newTodo`, newTask, { headers: {"apiKey": environment.todo_apiKey}, responseType: 'text' as 'json'});
   }
 
-
-  public addTask(newTask: Task): Observable<any>{
-    return this._dataBaseService.addTask(newTask);
+  public removeTask(poTask: Task): Observable<string>{
+    return this._http.delete<string>(`${environment.cloud_url}/todos/${poTask.id}`, {headers: {"apiKey": environment.todo_apiKey}});
   }
 
-  public getTasks(): void{
-    let updatedTasks: Task[] = [];
-
-    this._dataBaseService.getTasks().pipe(
-      tap(actions => {
-        updatedTasks = [];
-        actions.forEach(action => {
-          updatedTasks.push({
-            title: action.payload.exportVal().title,
-            date: action.payload.exportVal().date,
-            closed: action.payload.exportVal().closed,
-            description: action.payload.exportVal().description,
-            id: action.key
-          });
-        });
-        this._tasks.next(updatedTasks);
-      })
-    ).subscribe();
-  }
-
-  public removeTask(poTask: Task): Observable<any>{
-    return this._dataBaseService.removeTask(poTask);
-  }
-
-  public get tasks(): Observable<Task[]>{
-    return this._tasks.asObservable().pipe(
-      map((taskList: Task[]) => {
-        return taskList.sort((taskA: Task, taskB: Task) => {
-          return new Date(new Date().setHours(+taskA.date.substring(0, 2), +taskA.date.substring(3, 5))).getTime() - new Date(new Date().setHours(+taskB.date.substring(0, 2), +taskB.date.substring(3, 5))).getTime()
-        });
-      })
-    );
-  }
-
-  public setTaskChecked(poTask: Task, pbCheckedValue: boolean): Observable<any> {
-    return this._dataBaseService.setTaskChecked(poTask, pbCheckedValue);
-  }
-
-  public editTask(poEditedTask): Observable<any> {
-    return this._dataBaseService.editTask(poEditedTask).pipe(
-      tap(() => {
-        this.getTasks();
-      })
-    );
+  public editTask(poEditedTask: Task): Observable<string>{
+    return this._http.patch<string>(`${environment.cloud_url}/todos/${poEditedTask.id}`, {
+      "title": poEditedTask.title,
+      "description": poEditedTask.description,
+      "closed": `${poEditedTask.closed}`,
+      "date": poEditedTask.date
+    }, { headers: {"apiKey": environment.todo_apiKey}});
   }
 
   public getTodos(): Observable<Task[]> {

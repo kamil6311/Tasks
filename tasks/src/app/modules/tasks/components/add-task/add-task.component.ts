@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { tap } from 'rxjs/operators';
 import { Task } from '../../models/Task';
 import { TasksService } from '../../services/tasks.service';
 
@@ -15,7 +16,7 @@ export class AddTaskComponent implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private tasksService: TasksService
+    private tasksService: TasksService,
   ) {}
 
   public ngOnInit(): void {
@@ -34,6 +35,11 @@ export class AddTaskComponent implements OnInit {
     const taskFormData = this.taskForm.value;
 
     this.tasksService.addTask(new Task(taskFormData.title, new Date(taskFormData.time).toTimeString().substring(0, 5), false, taskFormData.description))
-    .subscribe(() => this.modalCtrl.dismiss());
+    .pipe(
+      tap(() => {
+        this.modalCtrl.dismiss();
+      })
+    ).subscribe();
   }
+
 }
