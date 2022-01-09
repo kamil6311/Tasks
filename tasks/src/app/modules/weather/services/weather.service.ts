@@ -18,7 +18,7 @@ export class WeatherService {
   }
 
   public searchWeatherData(latitude: number, longitude: number): Observable<any>{
-    return this._http.get(`http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${environment.weatherApiKey}&units=metric`);
+    return this._http.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${environment.weatherApiKey}&units=metric`);
 
   }
 
