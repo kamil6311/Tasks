@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IonItemSliding, ModalController } from '@ionic/angular';
 import { from, interval, Observable } from 'rxjs';
-import { concatMap, take, tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { Task } from '../../models/Task';
 import { TasksService } from '../../services/tasks.service';
 import { TaskDetailComponent } from '../task-detail/task-detail.component';
@@ -29,9 +29,7 @@ export class TasksListComponent implements OnInit {
   }
 
   public deleteTask(poTask: Task){
-    this.tasksService.removeTask(poTask).pipe(
-      concatMap(() => this.getTodos())
-    ).subscribe();
+    this.tasksService.removeTask(poTask).subscribe();
   }
 
   public editTask(poTask: Task){
@@ -52,11 +50,8 @@ export class TasksListComponent implements OnInit {
       });
 
       modalTaskDetail.onDidDismiss().then((modalDetailTaskData) => {
-        if(modalDetailTaskData.data){
-          this.tasksService.editTask(modalDetailTaskData.data).pipe(
-            concatMap(() => this.getTodos())
-          ).subscribe();
-        }
+        if(modalDetailTaskData.data)
+          this.tasksService.editTask(modalDetailTaskData.data).subscribe();
       });
 
       return modalTaskDetail.present();
@@ -74,8 +69,8 @@ export class TasksListComponent implements OnInit {
   }
 
   public getTodos(): Observable<Task[]> {
-    return this.tasksService.getTodos().pipe(
-      tap((resultData: Task[]) => this.tasksList = resultData)
+    return this.tasksService.tasks.pipe(
+        tap((tasks: Task[]) => this.tasksList = tasks)
     );
   }
 

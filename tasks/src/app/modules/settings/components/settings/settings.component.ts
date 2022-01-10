@@ -33,9 +33,8 @@ export class SettingsComponent implements OnInit {
   }
 
   public async validateSettings(){
-
     if(this.selectedFile){
-      await this.presetLoading();
+      await this.presentLoading();
       this._settingsService.saveBackgroundImage(this.base64ImageString).pipe(
         tap((result: string) => {
           if(result){
@@ -54,7 +53,7 @@ export class SettingsComponent implements OnInit {
     this._modalCtrl.dismiss();
   }
 
-  private async presetLoading(){
+  private async presentLoading(){
     this.loading = await this._loadingCtrl.create({
       message: "Enregistrement en cours..."
     });

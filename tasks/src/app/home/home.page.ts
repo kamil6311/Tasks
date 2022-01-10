@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { SettingsComponent } from '../modules/settings/components/settings/settings.component';
@@ -8,6 +8,7 @@ import { BgImage } from '../modules/settings/models/BgImage';
 import { SettingsService } from '../modules/settings/services/settings.service';
 import { AddTaskComponent } from '../modules/tasks/components/add-task/add-task.component';
 import { TasksComponent } from '../modules/tasks/components/tasks/tasks.component';
+import { TasksService } from '../modules/tasks/services/tasks.service';
 import { Weather } from '../modules/weather/models/Weather';
 import { WeatherService } from '../modules/weather/services/weather.service';
 
@@ -20,6 +21,8 @@ export class HomePage implements OnInit {
 
   @ViewChild(TasksComponent) private appTaskChild: TasksComponent
 
+  private _loading: HTMLIonLoadingElement;
+
   public currentDate: string = new Date().toLocaleDateString('fr-FR', {weekday: 'long', month: 'long', day: 'numeric'});
   public modalOpened = false;
   public weatherIcon = 'partly-sunny-outline';
@@ -29,7 +32,9 @@ export class HomePage implements OnInit {
   constructor(
     private _modalCtrl: ModalController,
     private _weatherService: WeatherService,
-    private _settingsService: SettingsService
+    private _settingsService: SettingsService,
+    private _tasksService: TasksService,
+    private _loadingCtrl: LoadingController
   ) {}
 
   public ngOnInit(): void {
@@ -44,6 +49,8 @@ export class HomePage implements OnInit {
     }
 
     this.getBackground().subscribe();
+
+    this.getTasksDb();
   }
 
   public onAddTaskClick(): void{
@@ -119,6 +126,24 @@ export class HomePage implements OnInit {
         }
       })
     );
+  }
+
+  private async presentLoading(){
+    this._loading = await this._loadingCtrl.create({
+      message: "Chargement des données..."
+    });
+
+    this._loading.present();
+  }
+
+  private async getTasksDb() {
+   await this.presentLoading();
+
+   this._tasksService.getTasks().pipe(
+     tap(() => {
+       this._loading.dismiss();
+     })
+   ).subscribe();
   }
 
 }

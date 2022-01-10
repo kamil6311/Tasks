@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { tap } from 'rxjs/operators';
+import { concatMap, tap } from 'rxjs/operators';
 import { Task } from '../../models/Task';
 import { TasksService } from '../../services/tasks.service';
 
@@ -38,8 +38,10 @@ export class AddTaskComponent implements OnInit {
     .pipe(
       tap(() => {
         this.modalCtrl.dismiss();
-      })
+      }),
+      concatMap(() => this.tasksService.getTasks())
     ).subscribe();
+
   }
 
 }
