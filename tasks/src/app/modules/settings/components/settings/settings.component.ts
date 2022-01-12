@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
-import { tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
+import { ComponentBase } from '../../../models/component-base/component-base.component';
 import { SettingsService } from '../../services/settings.service';
 
 @Component({
@@ -8,16 +9,16 @@ import { SettingsService } from '../../services/settings.service';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent extends ComponentBase {
 
   private loading: HTMLIonLoadingElement;
   private base64ImageString: string;
 
   public selectedFile: File = null;
 
-  constructor(private _settingsService: SettingsService, private _modalCtrl: ModalController, private _loadingCtrl: LoadingController) { }
-
-  public ngOnInit() {
+  constructor(private _settingsService: SettingsService, private _modalCtrl: ModalController, private _loadingCtrl: LoadingController)
+  {
+    super();
   }
 
   public async onFileSelected(poFileEvent): Promise<void> {
@@ -41,7 +42,8 @@ export class SettingsComponent implements OnInit {
             this.loading.dismiss();
             this._modalCtrl.dismiss();
           }
-        })
+        }),
+        takeUntil(this.destroyed$)
       ).subscribe();
     }
     else{

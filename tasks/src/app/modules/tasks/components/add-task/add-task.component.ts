@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { concatMap, tap } from 'rxjs/operators';
+import { concatMap, takeUntil, tap } from 'rxjs/operators';
+import { ComponentBase } from '../../../models/component-base/component-base.component';
 import { Task } from '../../models/Task';
 import { TasksService } from '../../services/tasks.service';
 
@@ -10,14 +11,16 @@ import { TasksService } from '../../services/tasks.service';
   templateUrl: './add-task.component.html',
   styleUrls: ['./add-task.component.scss'],
 })
-export class AddTaskComponent implements OnInit {
+export class AddTaskComponent extends ComponentBase implements OnInit {
 
   public taskForm: FormGroup;
 
   constructor(
     private modalCtrl: ModalController,
     private tasksService: TasksService,
-  ) {}
+  ) {
+    super();
+  }
 
   public ngOnInit(): void {
     this.taskForm = new FormGroup({
@@ -39,7 +42,8 @@ export class AddTaskComponent implements OnInit {
       tap(() => {
         this.modalCtrl.dismiss();
       }),
-      concatMap(() => this.tasksService.getTasks())
+      concatMap(() => this.tasksService.getTasks()),
+      takeUntil(this.destroyed$)
     ).subscribe();
 
   }

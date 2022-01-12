@@ -2,7 +2,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
+import { ComponentBase } from '../modules/models/component-base/component-base.component';
 import { SettingsComponent } from '../modules/settings/components/settings/settings.component';
 import { BgImage } from '../modules/settings/models/BgImage';
 import { SettingsService } from '../modules/settings/services/settings.service';
@@ -17,7 +18,7 @@ import { WeatherService } from '../modules/weather/services/weather.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage extends ComponentBase implements OnInit {
 
   @ViewChild(TasksComponent) private appTaskChild: TasksComponent
 
@@ -34,8 +35,10 @@ export class HomePage implements OnInit {
     private _weatherService: WeatherService,
     private _settingsService: SettingsService,
     private _tasksService: TasksService,
-    private _loadingCtrl: LoadingController
-  ) {}
+    private _loadingCtrl: LoadingController,
+  ) {
+    super();
+  }
 
   public ngOnInit(): void {
 
@@ -97,7 +100,8 @@ export class HomePage implements OnInit {
     return this._settingsService.getBackgroundImage().pipe(
       tap((result: BgImage) => {
         this.userBackgroundImageUrl = result.base64String;
-      })
+      }),
+      takeUntil(this.destroyed$)
     );
   }
 
@@ -124,7 +128,8 @@ export class HomePage implements OnInit {
             this.weatherIcon = 'cloudy-night-outline';
           }
         }
-      })
+      }),
+      takeUntil(this.destroyed$)
     );
   }
 
@@ -142,7 +147,8 @@ export class HomePage implements OnInit {
    this._tasksService.getTasks().pipe(
      tap(() => {
        this._loading.dismiss();
-     })
+     }),
+     takeUntil(this.destroyed$)
    ).subscribe();
   }
 

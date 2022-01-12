@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IonItemSliding, ModalController } from '@ionic/angular';
 import { from, interval, Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { take, takeUntil, tap } from 'rxjs/operators';
+import { ComponentBase } from '../../../models/component-base/component-base.component';
 import { Task } from '../../models/Task';
 import { TasksService } from '../../services/tasks.service';
 import { TaskDetailComponent } from '../task-detail/task-detail.component';
@@ -12,7 +13,7 @@ import { TaskDetailComponent } from '../task-detail/task-detail.component';
   templateUrl: './tasks-list.component.html',
   styleUrls: ['./tasks-list.component.scss'],
 })
-export class TasksListComponent implements OnInit {
+export class TasksListComponent extends ComponentBase implements OnInit {
   @ViewChild(IonItemSliding) slidingItem: IonItemSliding;
 
   public tasksList: Task[];
@@ -22,14 +23,18 @@ export class TasksListComponent implements OnInit {
 
   constructor(
     private tasksService: TasksService, private modalCtrl: ModalController
-  ) { }
+  ) {
+    super();
+  }
 
   public ngOnInit(): void {
     this.getTodos().subscribe();
   }
 
   public deleteTask(poTask: Task){
-    this.tasksService.removeTask(poTask).subscribe();
+    this.tasksService.removeTask(poTask).pipe(
+      takeUntil(this.destroyed$)
+    ).subscribe();
   }
 
   public editTask(poTask: Task){
@@ -39,7 +44,9 @@ export class TasksListComponent implements OnInit {
 
   public toggleTaskChange(poTask: Task, pbEvent: CustomEvent<{checked: boolean}>){
     poTask.closed = pbEvent.detail.checked;
-    this.tasksService.editTask(poTask).subscribe();
+    this.tasksService.editTask(poTask).pipe(
+      takeUntil(this.destroyed$)
+    ).subscribe();
   }
 
   public async selectTask(poSelectedTask: Task){
@@ -51,7 +58,9 @@ export class TasksListComponent implements OnInit {
 
       modalTaskDetail.onDidDismiss().then((modalDetailTaskData) => {
         if(modalDetailTaskData.data)
-          this.tasksService.editTask(modalDetailTaskData.data).subscribe();
+          this.tasksService.editTask(modalDetailTaskData.data).pipe(
+            takeUntil(this.destroyed$)
+          ).subscribe();
       });
 
       return modalTaskDetail.present();
@@ -64,13 +73,15 @@ export class TasksListComponent implements OnInit {
       take(1),
       tap({
         complete: () => { this.checkTaskClicked = false; }
-      })
+      }),
+      takeUntil(this.destroyed$)
     )).subscribe();
   }
 
   public getTodos(): Observable<Task[]> {
     return this.tasksService.tasks.pipe(
-        tap((tasks: Task[]) => this.tasksList = tasks)
+        tap((tasks: Task[]) => this.tasksList = tasks),
+        takeUntil(this.destroyed$)
     );
   }
 
