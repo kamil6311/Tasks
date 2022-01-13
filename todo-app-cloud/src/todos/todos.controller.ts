@@ -8,6 +8,7 @@ import { TodosService } from './todos.service';
 
 @Controller('todos')
 @ApiSecurity('apiKey')
+@ApiSecurity('tokenAuth')
 @ApiTags('Todos')
 export class TodosController {
     

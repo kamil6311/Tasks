@@ -14,7 +14,7 @@ import { AppModule } from './app.module';
     app.use(json({ limit: '50mb' }));
     app.use(urlencoded({ extended: true, limit: '50mb' }));
     
-    const options = new DocumentBuilder().setTitle('Todo App API').setVersion("1.0.0").addApiKey({type: 'apiKey', name: 'apiKey', in: 'header'}, 'apiKey').build();
+    const options = new DocumentBuilder().setTitle('Todo App API').setVersion("1.0.0").addApiKey({type: 'apiKey', name: 'apiKey', in: 'header'}, 'apiKey').addBearerAuth({ type: 'http', name: 'tokenAuth', in: 'header'}, 'tokenAuth').build();
     const swaggerDocument = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('api', app, swaggerDocument);
 
