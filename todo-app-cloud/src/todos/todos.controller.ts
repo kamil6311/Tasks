@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiCreatedResponse, ApiParam, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ITodo } from './ITodo';
 import { TodoDTO } from './TodoDTO';
 import { TodosService } from './todos.service';
@@ -13,6 +14,7 @@ export class TodosController {
     constructor(private readonly _todosService: TodosService) {}
 
     @Get()
+    @UseGuards(JwtAuthGuard)
     public async getTodos(): Promise<ITodo[]>{
         return await this._todosService.getTodos();
     }
