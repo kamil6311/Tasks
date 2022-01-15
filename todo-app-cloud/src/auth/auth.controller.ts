@@ -1,12 +1,12 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { ApiBody, ApiSecurity } from '@nestjs/swagger';
-import { UserDTO } from '../users/UserDTO';
+import { ApiBody, ApiExcludeController, ApiSecurity } from '@nestjs/swagger';
+import { UserDTO } from 'src/users/UserDTO';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
 
 @Controller('auth')
 @ApiSecurity('apiKey')
-//@ApiExcludeController(true)
+@ApiExcludeController(true)
 export class AuthController {
 
     constructor(private readonly _authService: AuthService){}
