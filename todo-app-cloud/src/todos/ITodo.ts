@@ -5,6 +5,7 @@ export const TodoSchema = new mongoose.Schema({
     description: { type: String, required: false },
     closed: { type: Boolean, required: true },
     date: { type: String, required: true },
+    userId: { type: String, required: true }
 });
 
 export interface ITodo {
@@ -17,4 +18,5 @@ export interface ITodo {
     closed: boolean;
 
     date: string;
+
 }

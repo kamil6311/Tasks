@@ -7,7 +7,7 @@ export const UserSchema = new mongoose.Schema({
 });
 
 export interface IUser {
-    id: number;
+    id: string;
     name: string;
     username: string;
     password: string;

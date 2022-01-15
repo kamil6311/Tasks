@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { UserDTO } from '../users/UserDTO';
+import { IPayload } from './models/IPayload';
 
 @Injectable()
 export class AuthService {
@@ -17,13 +18,12 @@ export class AuthService {
         return this.apiKeys.find(apiK => apiKey === apiK);
     }
 
-    public async validateUser(psUsername: string, psPassword: string): Promise<string> {
+    public async validateUser(psUsername: string, psPassword: string): Promise<any> {
         return await this._userService.login(psUsername, psPassword);
     }
 
-    public async createToken (user: UserDTO) {
-        const payload = { name: user.name, sub: user.id }
-
+    public async createToken (user: UserDTO): Promise<{access_token: string}> {
+        const payload: IPayload = { sub: user.id }
         return { 
             access_token: this._jwtService.sign(payload, { secret: this._configService.get('JWT_SECRET') })
         }

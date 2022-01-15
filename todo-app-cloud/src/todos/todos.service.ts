@@ -9,22 +9,22 @@ export class TodosService {
 
     constructor(@InjectModel('Todo') private readonly _todoModel: Model<ITodo>){}
 
-    public async createTodo(psTitle: string, psDescription: string, pbClosed: boolean, psDate: string): Promise<string>{
-        const newTodo = new this._todoModel({title: psTitle, description: psDescription, closed: pbClosed, date: psDate});
+    public async createTodo(psTitle: string, psDescription: string, pbClosed: boolean, psDate: string, psUserId: string): Promise<string>{
+        const newTodo = new this._todoModel({title: psTitle, description: psDescription, closed: pbClosed, date: psDate, userId: psUserId});
         const result = await newTodo.save();
         
         return result.id as string;
     }   
 
-    public async getTodos(): Promise<ITodo[]>{
-        const todos = await this._todoModel.find().exec();
+    public async getTodos(psUserId: string): Promise<ITodo[]>{
+        const todos = await this._todoModel.find({userId: psUserId}).exec();
 
         return todos.map((resultTodo) => (
             {id: resultTodo.id, title: resultTodo.title, description: resultTodo.description, closed: resultTodo.closed, date: resultTodo.date}
         ));
     }
 
-    public async getTodo(psId: string): Promise<ITodo> {
+    public async getTodo(psId: string, psUserId: string): Promise<ITodo> {
         const todo = await this._todoModel.findById(psId);
         if(!todo){
             throw new NotFoundException("Could not find this todo");

@@ -15,4 +15,5 @@ export class TodoDTO {
 
     @ApiProperty({example: "18:00"})
     public date: string;
+
 }

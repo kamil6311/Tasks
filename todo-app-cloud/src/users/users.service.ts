@@ -27,7 +27,7 @@ export class UsersService {
         return {id: user._id, name: user.name, username: user.username, password: user.password};
     }
 
-    public async login(psUsername: string, psPassword: string): Promise<string>{
+    public async login(psUsername: string, psPassword: string): Promise<any>{
         const user  = await this.findeOne(psUsername);
 
         if(user) {
@@ -36,7 +36,7 @@ export class UsersService {
             if(isPasswordValid) {
                 const { password, username, ...rest} = user;
 
-                return "Succesfully logged in !";
+                return rest;
             }
             else {
                 throw new HttpException("Password incorrect.", HttpStatus.NOT_ACCEPTABLE);

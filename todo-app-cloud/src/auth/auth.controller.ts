@@ -13,9 +13,9 @@ export class AuthController {
     
     @UseGuards(LocalAuthGuard)
     @Post('login')
-    public login(@Request() req): any {
+    public login(@Request() req): Promise<{access_token: string}> {
         return this._authService.createToken(req.user);
-    }
+    }                                                   
 
     @Post('register')
     @ApiBody({type: UserDTO})
