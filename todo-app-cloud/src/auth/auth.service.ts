@@ -19,7 +19,7 @@ export class AuthService {
     }
 
     public async createToken (user: UserDTO): Promise<{access_token: string}> {
-        const payload: IPayload = { sub: user.id }
+        const payload: IPayload = { sub: user.id, username: user.username, name: user.name }
         return { 
             access_token: this._jwtService.sign(payload, { secret: this._configService.get('JWT_SECRET') })
         }

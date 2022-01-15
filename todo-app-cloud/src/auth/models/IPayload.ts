@@ -1,3 +1,5 @@
 export interface IPayload {
-    sub: string
+    sub: string,
+    username: string,
+    name: string
 }

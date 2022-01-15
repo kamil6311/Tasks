@@ -34,7 +34,7 @@ export class UsersService {
             const isPasswordValid: boolean = await bcrypt.compare(psPassword, user.password);
 
             if(isPasswordValid) {
-                const { password, username, ...rest} = user;
+                const { password, ...rest} = user;
 
                 return rest;
             }

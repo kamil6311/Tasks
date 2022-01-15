@@ -1,0 +1,36 @@
+<div class="div-content">
+  <ion-grid>
+    <ion-row>
+      <ion-col sizeSm="6" offsetSm="3" sizeXl="3" offsetXl="4.5">
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+          <div class="logo">
+            <ion-icon color="light" name="person"></ion-icon>
+          </div>
+
+          <ion-item>
+            <ion-icon name="person-outline" class="login-ion-icon"></ion-icon>
+            <ion-input formControlName="username" type="mail" color="dark" placeholder="Nom d'utilisateur">
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="key-outline" class="login-ion-icon"></ion-icon>
+            <ion-input formControlName="password" color="dark" type="password" placeholder="Mot de passe"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-button color="medium" slot="end" fill="clear">Mot de passe oublié ?</ion-button>
+          </ion-item>
+
+          <ion-button type="submit" [disabled]="!loginForm.valid" color="primary" expand="block" shape="round"
+            fill="outline">Connexion</ion-button>
+
+          <br>
+
+          <ion-button color="tertiary" expand="block" shape="round" (click)="onLogOut()">Inscription</ion-button>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
