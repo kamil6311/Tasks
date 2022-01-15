@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
+import { ComponentBase } from 'src/app/modules/models/component-base/component-base.component';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -10,11 +11,13 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent extends ComponentBase implements OnInit {
 
   public loginForm: FormGroup;
 
-  constructor(private _authService: AuthService, private _router: Router, private _alterCtrl: AlertController) { }
+  constructor(private _authService: AuthService, private _router: Router, private _alterCtrl: AlertController) {
+    super();
+  }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -40,13 +43,16 @@ export class AuthComponent implements OnInit {
             buttons: ['OK']
           });
           await alert.present();
-        })
+        }),
+        takeUntil(this.destroyed$)
       ).subscribe();
     }
   }
 
   public onLogOut() {
-    this._authService.logOut().subscribe();
+    this._authService.logOut().pipe(
+      takeUntil(this.destroyed$)
+    ).subscribe();
   }
 
 }
