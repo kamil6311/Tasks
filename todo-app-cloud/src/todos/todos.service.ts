@@ -10,7 +10,6 @@ export class TodosService {
     constructor(@InjectModel('Todo') private readonly _todoModel: Model<ITodo>){}
 
     public async createTodo(psTitle: string, psDescription: string, pbClosed: boolean, psDate: string): Promise<string>{
-        const todoId = Math.random().toString();
         const newTodo = new this._todoModel({title: psTitle, description: psDescription, closed: pbClosed, date: psDate});
         const result = await newTodo.save();
         

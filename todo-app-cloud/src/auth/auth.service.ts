@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
-import { UserDTO } from './UserDTO';
+import { UserDTO } from '../users/UserDTO';
 
 @Injectable()
 export class AuthService {
@@ -17,15 +17,8 @@ export class AuthService {
         return this.apiKeys.find(apiK => apiKey === apiK);
     }
 
-    public async validateUser(username: string, password: string): Promise<any> {
-        const user = await this._userService.findeOne(username);
-
-        if(user && user.password === password){
-            const { password, username, ...rest} = user;
-            return rest;
-        }
-
-        return null;
+    public async validateUser(psUsername: string, psPassword: string): Promise<string> {
+        return await this._userService.login(psUsername, psPassword);
     }
 
     public async createToken (user: UserDTO) {
@@ -36,5 +29,8 @@ export class AuthService {
         }
     } 
 
+    public async createUser(psName: string, psUsername: string, psPassword: string): Promise<string> {
+        return await this._userService.createUser(psName, psUsername, psPassword);
+    }
 }
 

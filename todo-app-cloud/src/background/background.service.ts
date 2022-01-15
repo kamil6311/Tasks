@@ -5,7 +5,6 @@ import { IBackgroundImage } from './IBackgroundImage';
 
 @Injectable()
 export class BackgroundService {
-    private static readonly C_BG_IMAGE_ID = "61d9d6af1730585d49bf403d";
     
     constructor(@InjectModel('BackgroundImage') private readonly _imageModel: Model<IBackgroundImage>){}
 
