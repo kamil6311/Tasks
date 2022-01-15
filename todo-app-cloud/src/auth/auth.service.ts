@@ -10,12 +10,8 @@ export class AuthService {
 
     constructor(private _userService: UsersService, private _jwtService: JwtService, private _configService: ConfigService){ }
 
-    private apiKeys: string[] = [
-        '6b2622a5-2251-4091-95f2-e425b7601a46',
-    ];
-
-    public validateApiKey(apiKey: string) {
-        return this.apiKeys.find(apiK => apiKey === apiK);
+    public validateApiKey(psApiKey: string) {
+        return psApiKey === this._configService.get("APIKEY");
     }
 
     public async validateUser(psUsername: string, psPassword: string): Promise<any> {
