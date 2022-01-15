@@ -26,7 +26,7 @@ export class TodosController {
     public async addTodos(@Body("title")psTitle: string, @Body("description") psDescription: string, @Body("closed") pbClosed: boolean, @Body("date") psDate: string): Promise<string> {
         return await this._todosService.createTodo(psTitle, psDescription, pbClosed, psDate);
     }
-   
+
     @Get(':id')
     @ApiParam({name: "id", type: String, description: "Id of the todo."})
     public async getTodo(@Param("id") psId: string): Promise<ITodo>{
