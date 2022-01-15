@@ -34,7 +34,6 @@ export class AuthComponent implements OnInit {
           }
         },
         async () => {
-          console.log('login failed');
           const alert = await this._alterCtrl.create({
             header: "Erreur lors de l'authentification.",
             message: "Mauvaises informations de connexion.",

@@ -17,6 +17,8 @@ const ACCESS_TOKEN: string = "";
 })
 export class AuthService {
   private userData = new BehaviorSubject(null);
+  private accessToken: string;
+
   public user: Observable<any>;
 
   constructor(private _httpClient: HttpClient, private _storage: Storage, private _platform: Platform, private _route: Router) {
@@ -48,16 +50,22 @@ export class AuthService {
     return this.userData.getValue();
   }
 
+  public getAccessToken(): string {
+    return `Bearer ${this.accessToken}`;
+  }
+
   private loadStoredToken() {
     let storage$ = from(this._storage.create());
 
     this.user = storage$.pipe(
       switchMap(() => {
-        return from(this._storage.get(ACCESS_TOKEN));
+        return from(this._storage.get(ACCESS_TOKEN)).pipe(
+          tap((token: string) => this.accessToken = token)
+        );
       }),
       map((token) => {
-        console.log(`token ${token}`);
         if(token){
+          console.log(`token ${token}`);
           let decodedToken = jwtHelper.decodeToken(token);
           this.userData.next(decodedToken);
           return true;
