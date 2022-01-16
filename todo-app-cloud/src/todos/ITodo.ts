@@ -9,7 +9,7 @@ export const TodoSchema = new mongoose.Schema({
 });
 
 export interface ITodo {
-    id: string;
+    _id: string;
     
     title: string;
 
@@ -19,4 +19,5 @@ export interface ITodo {
 
     date: string;
 
+    userId: string
 }

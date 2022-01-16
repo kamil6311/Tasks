@@ -2,7 +2,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiCreatedResponse, ApiParam, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { ITodo } from './ITodo';
 import { TodoDTO } from './TodoDTO';
 import { TodosService } from './todos.service';
 
@@ -16,7 +15,7 @@ export class TodosController {
 
     @Get()
     @UseGuards(JwtAuthGuard)
-    public async getTodos(@Request() poReq): Promise<ITodo[]>{
+    public async getTodos(@Request() poReq): Promise<TodoDTO[]>{
         return await this._todosService.getTodos(poReq.user.id);
     }
 
@@ -31,8 +30,8 @@ export class TodosController {
     @Get(':id')
     @UseGuards(JwtAuthGuard)
     @ApiParam({name: "id", type: String, description: "Id of the todo."})
-    public async getTodo(@Request() poReq, @Param("id") psId: string): Promise<ITodo>{
-        return await this._todosService.getTodo(psId, poReq.user.id);
+    public async getTodo(@Request() poReq, @Param("id") psId: string): Promise<TodoDTO>{
+        return await this._todosService.getTodo(psId);
     }
 
     @Delete(':id')

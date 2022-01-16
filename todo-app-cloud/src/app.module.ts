@@ -2,6 +2,7 @@ import { HttpModule } from '@nestjs/axios';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -22,7 +23,7 @@ import { UsersModule } from './users/users.module';
       uri: configService.get('DB_URI'),
     }),
     inject: [ConfigService]
-  }), AuthModule, UsersModule],
+  }), AuthModule, UsersModule, ScheduleModule.forRoot()],
   controllers: [AppController],
   providers: [AppService],
 })

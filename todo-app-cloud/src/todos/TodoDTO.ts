@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class TodoDTO {
     
-    public _id: string;
+    public id: string;
     
     @ApiProperty({example: "My todo"})
     public title: string;

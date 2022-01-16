@@ -1,13 +1,21 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { Model } from 'mongoose';
+import { UsersService } from 'src/users/users.service';
 import { ITodo } from './ITodo';
+import { TodoDTO } from './TodoDTO';
 
 @Injectable()
-export class TodosService {
+export class TodosService implements OnModuleInit {
 
-    constructor(@InjectModel('Todo') private readonly _todoModel: Model<ITodo>){}
+    constructor(@InjectModel('Todo') private readonly _todoModel: Model<ITodo>, private _userService: UsersService){
+    }
+    
+    public async onModuleInit() {
+        await this.deleteUnusedTodos();
+    }
 
     public async createTodo(psTitle: string, psDescription: string, pbClosed: boolean, psDate: string, psUserId: string): Promise<string>{
         const newTodo = new this._todoModel({title: psTitle, description: psDescription, closed: pbClosed, date: psDate, userId: psUserId});
@@ -16,7 +24,7 @@ export class TodosService {
         return result.id as string;
     }   
 
-    public async getTodos(psUserId: string): Promise<ITodo[]>{
+    public async getTodos(psUserId: string): Promise<TodoDTO[]>{
         const todos = await this._todoModel.find({userId: psUserId}).exec();
 
         return todos.map((resultTodo) => (
@@ -24,7 +32,7 @@ export class TodosService {
         ));
     }
 
-    public async getTodo(psId: string, psUserId: string): Promise<ITodo> {
+    public async getTodo(psId: string): Promise<TodoDTO> {
         const todo = await this._todoModel.findById(psId);
         if(!todo){
             throw new NotFoundException("Could not find this todo");
@@ -53,5 +61,21 @@ export class TodosService {
         updatedTodo.date = psDate? psDate : updatedTodo.date;
         
         await updatedTodo.save();
+    }
+
+    @Cron(CronExpression.EVERY_DAY_AT_4AM)
+    private async deleteUnusedTodos(){
+        console.log("Checking for unused todos...");
+        
+        const todos: ITodo[] = await this._todoModel.find().exec();
+
+        todos.forEach(async (todo: ITodo) => {
+            const isUserIdExists: boolean = await this._userService.findeUserById(todo.userId);
+
+            if(!isUserIdExists){
+                console.log("deleting " + todo._id);
+                await this.deleteTodo(todo._id);
+            }
+        });
     }
 }

@@ -27,6 +27,15 @@ export class UsersService {
         return {id: user._id, name: user.name, username: user.username, password: user.password};
     }
 
+    public async findeUserById(psId: string): Promise<boolean> {
+        const user = await this._userModel.findOne({id: psId}).exec();
+
+        if(!user)
+            return false;
+        
+        return true;
+    }
+
     public async login(psUsername: string, psPassword: string): Promise<any>{
         const user  = await this.findeOne(psUsername);
 
