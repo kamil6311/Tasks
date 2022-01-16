@@ -6,6 +6,7 @@ import { BehaviorSubject, from, Observable } from 'rxjs';
 import { concatMap, map, switchMap, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ILoginResponse } from '../models/ILoginResponse';
+import { IUserInfos } from '../models/IUserInfos';
 
 const jwtHelper = new JwtHelperService();
 const ACCESS_TOKEN: string = "";
@@ -14,20 +15,20 @@ const ACCESS_TOKEN: string = "";
   providedIn: 'root'
 })
 export class AuthService {
-  private userData = new BehaviorSubject(null);
+  private userData = new BehaviorSubject<IUserInfos>(null);
   private accessToken: string;
 
-  public user: Observable<any>;
+  public userInfos: Observable<any>;
 
   constructor(private _httpClient: HttpClient, private _storage: Storage) {
     this.loadStoredToken();
   }
 
-  public login(psUsername: string, psPassword: string): Observable<any>{
-    return this._httpClient.post(`${environment.cloud_url}/auth/login`, {"username": psUsername, "password": psPassword}, {headers: {"apiKey": environment.todo_apiKey}})
+  public login(psUsername: string, psPassword: string): Observable<ILoginResponse>{
+    return this._httpClient.post<ILoginResponse>(`${environment.cloud_url}/auth/login`, {"username": psUsername, "password": psPassword}, {headers: {"apiKey": environment.todo_apiKey}})
     .pipe(
       switchMap((loginResponse: ILoginResponse) => {
-        let decodedToken = jwtHelper.decodeToken(loginResponse.access_token);
+        let decodedToken: IUserInfos = jwtHelper.decodeToken(loginResponse.access_token);
         this.userData.next(decodedToken);
 
         return from(this._storage.set(ACCESS_TOKEN, loginResponse.access_token));
@@ -46,7 +47,7 @@ export class AuthService {
     )
   }
 
-  public logOut(): Observable<void> {
+  public logOut(): Observable<any> {
     return from(this._storage.remove(ACCESS_TOKEN)).pipe(
       tap(() => {
         this.userData.next(null);
@@ -54,8 +55,8 @@ export class AuthService {
     );
   }
 
-  public getUserData(){
-    return this.userData.getValue();
+  public getUserData(): Observable<IUserInfos>{
+    return this.userData as Observable<IUserInfos>;
   }
 
   public getAccessToken(): string {
@@ -65,7 +66,7 @@ export class AuthService {
   private loadStoredToken() {
     let storage$ = from(this._storage.create());
 
-    this.user = storage$.pipe(
+    this.userInfos = storage$.pipe(
       switchMap(() => {
         return from(this._storage.get(ACCESS_TOKEN)).pipe(
           tap((token: string) => this.accessToken = token)
@@ -74,7 +75,7 @@ export class AuthService {
       map((token) => {
         if(token){
           console.log(`token ${token}`);
-          let decodedToken = jwtHelper.decodeToken(token);
+          let decodedToken: IUserInfos = jwtHelper.decodeToken(token);
           this.userData.next(decodedToken);
           return true;
         }

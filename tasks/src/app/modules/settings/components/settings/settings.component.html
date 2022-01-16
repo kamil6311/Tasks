@@ -18,6 +18,29 @@
 
 <ion-content>
 
+  <ion-card style="text-align: center;">
+    <ion-card-header>
+      <ion-icon name="information-circle-outline" size="large"></ion-icon>
+    </ion-card-header>
+
+    <ion-card-content style="text-align: center;">
+      <ion-item>
+        <ion-icon name="person-outline" class="login-ion-icon"></ion-icon>
+        <ion-label color="dark" [textContent]="userInfos.name">
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="person-outline" class="login-ion-icon"></ion-icon>
+        <ion-label color="dark" [textContent]="userInfos.username">
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+
+
+
   <ion-card class="ion-text-center">
     <ion-card-title>Image de fond</ion-card-title>
     <ion-card-content>

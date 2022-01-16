@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController, LoadingController, ModalController, NavController } from '@ionic/angular';
-import { takeUntil, tap } from 'rxjs/operators';
-import { AuthService } from 'src/app/modules/auth/services/auth.service';
+import { plainToClass } from 'class-transformer';
+import { take, takeUntil, tap } from 'rxjs/operators';
+import { IUserInfos } from '../../../auth/models/IUserInfos';
+import { UserInfos } from '../../../auth/models/UserInfos';
+import { AuthService } from '../../../auth/services/auth.service';
 import { ComponentBase } from '../../../models/component-base/component-base.component';
 import { SettingsService } from '../../services/settings.service';
 
@@ -10,12 +13,13 @@ import { SettingsService } from '../../services/settings.service';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })
-export class SettingsComponent extends ComponentBase {
+export class SettingsComponent extends ComponentBase implements OnInit {
 
   private loading: HTMLIonLoadingElement;
   private base64ImageString: string;
 
   public selectedFile: File = null;
+  public userInfos: UserInfos;
 
   constructor(
     private _settingsService: SettingsService,
@@ -27,6 +31,17 @@ export class SettingsComponent extends ComponentBase {
     )
   {
     super();
+  }
+
+  public ngOnInit(): void {
+    this._authService.getUserData().pipe(
+      take(1),
+      tap((poUserInfos: IUserInfos) => {
+        this.userInfos = plainToClass(UserInfos, poUserInfos);
+        console.log(this.userInfos);
+      }),
+      takeUntil(this.destroyed$)
+    ).subscribe();
   }
 
   public async onFileSelected(poFileEvent): Promise<void> {
