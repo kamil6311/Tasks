@@ -28,7 +28,8 @@
 
           <br>
 
-          <ion-button color="tertiary" expand="block" shape="round" (click)="onLogOut()">Inscription</ion-button>
+          <ion-button color="tertiary" expand="block" shape="round" [routerLink]="['/', 'auth', 'register']">Inscription
+          </ion-button>
         </form>
       </ion-col>
     </ion-row>

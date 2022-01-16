@@ -1,0 +1,55 @@
+<ion-buttons slot="start" style="padding: 10px;">
+  <ion-back-button defaultHref="auth" color="dark" text="Retour">
+  </ion-back-button>
+</ion-buttons>
+
+<div class="div-content">
+  <ion-grid>
+    <ion-row>
+      <ion-col sizeSm="6" offsetSm="3" sizeXl="3" offsetXl="4.5">
+        <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+
+          <div class="logo">
+            <ion-icon color="light" name="person-add"></ion-icon>
+          </div>
+
+          <ion-card style="padding-bottom: -40px;">
+
+            <ion-card-header style="text-align: center;">
+              <ion-card-title color="dark">
+                Créer un compte
+              </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-item>
+                <ion-icon name="person-outline" class="login-ion-icon"></ion-icon>
+                <ion-input formControlName="name" color="dark" placeholder="Nom">
+                </ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon name="person-outline" class="login-ion-icon"></ion-icon>
+                <ion-input formControlName="username" color="dark" placeholder="Nom d'utilisateur">
+                </ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon name="key-outline" class="login-ion-icon"></ion-icon>
+                <ion-input formControlName="password" color="dark" type="password" placeholder="Mot de passe">
+                </ion-input>
+              </ion-item>
+            </ion-card-content>
+
+          </ion-card>
+
+          <br>
+
+          <ion-button type="submit" [disabled]="!registerForm.valid" color="primary" expand="block" shape="round"
+            fill="outline">Créer le compte</ion-button>
+
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>

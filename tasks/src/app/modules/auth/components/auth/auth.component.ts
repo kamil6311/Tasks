@@ -49,10 +49,7 @@ export class AuthComponent extends ComponentBase implements OnInit {
     }
   }
 
-  public onLogOut() {
-    this._authService.logOut().pipe(
-      takeUntil(this.destroyed$)
-    ).subscribe();
+  public onRegister() {
   }
 
 }

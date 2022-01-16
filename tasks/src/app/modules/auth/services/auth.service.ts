@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { BehaviorSubject, from, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { concatMap, map, switchMap, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ILoginResponse } from '../models/ILoginResponse';
 
@@ -35,6 +35,17 @@ export class AuthService {
         return from(this._storage.set(ACCESS_TOKEN, loginResponse.access_token));
       })
     );
+  }
+
+  public register(psName: string, psUsername: string, psPassword: string): Observable<any> {
+    return this._httpClient.post<string>(`${environment.cloud_url}/auth/register`, {"name": psName, "username": psUsername, "password": psPassword}, {headers: {"apiKey": environment.todo_apiKey}})
+    .pipe(
+      concatMap((resultId: string) => {
+        if(resultId){
+          return this.login(psUsername, psPassword);
+        }
+      })
+    )
   }
 
   public logOut(): Observable<void> {
