@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { concatMap, map, switchMap, tap } from 'rxjs/operators';
@@ -21,7 +19,7 @@ export class AuthService {
 
   public user: Observable<any>;
 
-  constructor(private _httpClient: HttpClient, private _storage: Storage, private _platform: Platform, private _route: Router) {
+  constructor(private _httpClient: HttpClient, private _storage: Storage) {
     this.loadStoredToken();
   }
 
@@ -51,7 +49,6 @@ export class AuthService {
   public logOut(): Observable<void> {
     return from(this._storage.remove(ACCESS_TOKEN)).pipe(
       tap(() => {
-        this._route.navigateByUrl('/');
         this.userData.next(null);
       })
     );

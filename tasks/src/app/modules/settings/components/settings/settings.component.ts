@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, NavController } from '@ionic/angular';
 import { takeUntil, tap } from 'rxjs/operators';
+import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { ComponentBase } from '../../../models/component-base/component-base.component';
 import { SettingsService } from '../../services/settings.service';
 
@@ -16,7 +17,14 @@ export class SettingsComponent extends ComponentBase {
 
   public selectedFile: File = null;
 
-  constructor(private _settingsService: SettingsService, private _modalCtrl: ModalController, private _loadingCtrl: LoadingController)
+  constructor(
+    private _settingsService: SettingsService,
+    private _modalCtrl: ModalController,
+    private _loadingCtrl: LoadingController,
+    private _alertCtrl: AlertController,
+    private _authService: AuthService,
+    private _navCtrl: NavController
+    )
   {
     super();
   }
@@ -35,7 +43,7 @@ export class SettingsComponent extends ComponentBase {
 
   public async validateSettings(){
     if(this.selectedFile){
-      await this.presentLoading();
+      await this.presentLoading("Enregistrement en cours...");
       this._settingsService.saveBackgroundImage(this.base64ImageString).pipe(
         tap((result: string) => {
           if(result){
@@ -51,16 +59,42 @@ export class SettingsComponent extends ComponentBase {
     }
   }
 
+  public onLogOut(): void {
+    this._alertCtrl.create({
+      header: "Déconnexion",
+      message: "Êtes vous sûr de vouloir vous déconnecter ?",
+      buttons: ["Annuler",
+        {
+          text: "OK",
+          handler: () => this.logOut()
+        }
+      ]
+    }).then((poAlert: HTMLIonAlertElement) => poAlert.present());
+  }
+
   public cancelSettings(): void {
     this._modalCtrl.dismiss();
   }
 
-  private async presentLoading(){
+  private async presentLoading(psMessage: string){
     this.loading = await this._loadingCtrl.create({
-      message: "Enregistrement en cours..."
+      message: psMessage
     });
 
     this.loading.present();
+  }
+
+  private async logOut(): Promise<void> {
+    await this.presentLoading("Déconnexion en cours...");
+
+    this._authService.logOut().pipe(
+      tap(() => {
+        this._loadingCtrl.dismiss();
+        this._modalCtrl.dismiss();
+        this._navCtrl.navigateBack('/');
+      }),
+      takeUntil(this.destroyed$)
+    ).subscribe();
   }
 }
 

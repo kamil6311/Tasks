@@ -33,7 +33,7 @@ export class AuthComponent extends ComponentBase implements OnInit {
       this._authService.login(loginData.username, loginData.password).pipe(
         tap(async response => {
           if(response) {
-            this._router.navigateByUrl('/home');
+            this._router.navigate(['/home'], { replaceUrl: true});
           }
         },
         async () => {

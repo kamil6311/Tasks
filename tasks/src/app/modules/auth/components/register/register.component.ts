@@ -31,37 +31,47 @@ export class RegisterComponent implements OnInit {
   public async onRegister(): Promise<void> {
     if(this.registerForm.valid){
       const registerData = this.registerForm.value;
-      await this.presentLoading();
+      if((registerData.password as string).length > 5 && !(registerData.password as string).includes(" ")){
+        await this.presentLoading();
 
-      this._authService.register(registerData.name, registerData.username, registerData.password).pipe(
-        tap({
-          next: (responseToken: string) => {
-            if(responseToken) {
-              this._loading.dismiss();
-              this._route.navigateByUrl('/home');
+        this._authService.register(registerData.name, registerData.username, registerData.password).pipe(
+          tap({
+            next: (responseToken: string) => {
+              if(responseToken) {
+                this._loading.dismiss();
+                this._route.navigateByUrl('/home');
+              }
+            },
+            error: (httpError: HttpErrorResponse) => {
+              if(httpError.status === HttpStatusCode.Conflict){
+                this._loading.dismiss();
+                this.presentAlert("Mauvais nom d'utilisateur", `Le nom d'utilisateur <b>${registerData.username}</b> est déja utilisé !`);
+              }
             }
-          },
-          error: (httpError: HttpErrorResponse) => {
-            if(httpError.status === HttpStatusCode.Conflict){
-              this._alertCtrl.create({
-                header: "Mauvais nom d'utilisateur",
-                message: `Le nom d'utilisateur <b>${registerData.username}</b> est déja utilisé !`,
-                buttons: ['OK']
-              }).then(poAlert => poAlert.present());
-            }
-          }
-        }),
-      ).subscribe();
+          }),
+        ).subscribe();
+      }
+      else {
+        this.presentAlert("Mot de passe incorrect", `Le mot doit avoir une longueur de plus de 5 caratères et ne doit pas contenir d'espaces.`);
+      }
     }
   }
 
-  private async presentLoading(){
+  private async presentLoading(): Promise<void>{
     this._loading = await this._loadingCtrl.create({
       message: "Création du compte...",
       spinner: 'crescent'
     });
 
     this._loading.present();
+  }
+
+  private presentAlert(psHeader: string, psMessage: string): void {
+    this._alertCtrl.create({
+      header: psHeader,
+      message: psMessage,
+      buttons: ['OK']
+    }).then(poAlert => poAlert.present());
   }
 
 }
