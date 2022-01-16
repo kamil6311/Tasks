@@ -15,6 +15,7 @@ export class TodosService implements OnModuleInit {
     
     public async onModuleInit() {
         await this.deleteUnusedTodos();
+        await this.deleteClosedTodos();
     }
 
     public async createTodo(psTitle: string, psDescription: string, pbClosed: boolean, psDate: string, psUserId: string): Promise<string>{
@@ -76,6 +77,18 @@ export class TodosService implements OnModuleInit {
                 console.log("deleting " + todo._id);
                 await this.deleteTodo(todo._id);
             }
+        });
+    }
+
+    @Cron(CronExpression.EVERY_WEEKEND)
+    private async deleteClosedTodos(){
+        console.log("Checking for closed todos...");
+        
+        const todos: ITodo[] = await this._todoModel.find({closed: true}).exec();
+
+        todos.forEach(async (todo: ITodo) => {
+            console.log("deleting " + todo._id);
+            await this.deleteTodo(todo._id);
         });
     }
 }
