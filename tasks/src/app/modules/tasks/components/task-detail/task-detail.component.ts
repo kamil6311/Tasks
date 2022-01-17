@@ -39,8 +39,8 @@ export class TaskDetailComponent implements OnInit {
     this.modalCtrl.dismiss();
   }
 
-  public changeTitle(psTitleValue: CustomEvent<{value: string}>) {
-    this.psTaskTitle = psTitleValue.detail.value;
+  public changeTitle(psTitleValue: Event) {
+    this.psTaskTitle = (psTitleValue as CustomEvent<{value: string}>).detail.value;
   }
 
 }

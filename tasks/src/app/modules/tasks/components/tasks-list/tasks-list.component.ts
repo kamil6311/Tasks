@@ -42,8 +42,8 @@ export class TasksListComponent extends ComponentBase implements OnInit {
     this.slidingItem.close();
   }
 
-  public toggleTaskChange(poTask: Task, pbEvent: CustomEvent<{checked: boolean}>){
-    poTask.closed = pbEvent.detail.checked;
+  public toggleTaskChange(poTask: Task, pbEvent: Event){
+    poTask.closed = (pbEvent as CustomEvent<{checked: boolean}>).detail.checked;
     this.tasksService.editTask(poTask).pipe(
       takeUntil(this.destroyed$)
     ).subscribe();
