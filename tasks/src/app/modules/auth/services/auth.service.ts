@@ -16,7 +16,7 @@ const ACCESS_TOKEN: string = "";
 })
 export class AuthService {
   private userData = new BehaviorSubject<IUserInfos>(null);
-  private accessToken: string;
+  private static accessToken: string;
 
   public userInfos: Observable<any>;
 
@@ -27,11 +27,12 @@ export class AuthService {
   public login(psUsername: string, psPassword: string): Observable<ILoginResponse>{
     return this._httpClient.post<ILoginResponse>(`${environment.cloud_url}/auth/login`, {"username": psUsername, "password": psPassword}, {headers: {"apiKey": environment.todo_apiKey}})
     .pipe(
-      switchMap((loginResponse: ILoginResponse) => {
+      tap((loginResponse: ILoginResponse) => {
         let decodedToken: IUserInfos = jwtHelper.decodeToken(loginResponse.access_token);
         this.userData.next(decodedToken);
+        AuthService.accessToken = loginResponse.access_token;
 
-        return from(this._storage.set(ACCESS_TOKEN, loginResponse.access_token));
+        this._storage.set(ACCESS_TOKEN, loginResponse.access_token);
       })
     );
   }
@@ -56,20 +57,19 @@ export class AuthService {
   }
 
   public getUserData(): Observable<IUserInfos>{
-    return this.userData as Observable<IUserInfos>;
+    return this.userData.asObservable();
   }
 
   public getAccessToken(): string {
-    return `Bearer ${this.accessToken}`;
+    return `Bearer ${AuthService.accessToken}`;
   }
 
   private loadStoredToken() {
     let storage$ = from(this._storage.create());
-
     this.userInfos = storage$.pipe(
       switchMap(() => {
         return from(this._storage.get(ACCESS_TOKEN)).pipe(
-          tap((token: string) => this.accessToken = token)
+          tap((token: string) => AuthService.accessToken = token)
         );
       }),
       map((token) => {

@@ -38,7 +38,6 @@ export class SettingsComponent extends ComponentBase implements OnInit {
       take(1),
       tap((poUserInfos: IUserInfos) => {
         this.userInfos = plainToClass(UserInfos, poUserInfos);
-        console.log(this.userInfos);
       }),
       takeUntil(this.destroyed$)
     ).subscribe();

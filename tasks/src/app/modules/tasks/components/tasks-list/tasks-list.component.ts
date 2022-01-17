@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IonItemSliding, ModalController } from '@ionic/angular';
 import { from, interval, Observable } from 'rxjs';
-import { take, takeUntil, tap } from 'rxjs/operators';
+import { concatMap, take, takeUntil, tap } from 'rxjs/operators';
 import { ComponentBase } from '../../../models/component-base/component-base.component';
 import { Task } from '../../models/Task';
 import { TasksService } from '../../services/tasks.service';
@@ -79,12 +79,15 @@ export class TasksListComponent extends ComponentBase implements OnInit {
   }
 
   public getTodos(): Observable<Task[]> {
-    return this.tasksService.tasks.pipe(
-        tap((tasks: Task[]) => this.tasksList = tasks),
-        takeUntil(this.destroyed$)
+    return this.tasksService.getTasks().pipe(
+      concatMap(() => {
+        return this.tasksService.tasks.pipe(
+          tap((tasks: Task[]) => this.tasksList = tasks),
+          takeUntil(this.destroyed$))
+      }),
+      takeUntil(this.destroyed$)
     );
   }
-
 }
 
 

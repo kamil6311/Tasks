@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { plainToClass } from 'class-transformer';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { mergeMap, take, tap } from 'rxjs/operators';
+import { map, mergeMap, take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../../auth/services/auth.service';
 import { ITask } from '../models/ITask';
@@ -14,7 +14,6 @@ import { Task } from '../models/Task';
 })
 export class TasksService {
   private _tasks = new BehaviorSubject<Task[]>([]);
-  private _token: string;
 
   constructor(
     private _http: HttpClient,
@@ -23,7 +22,13 @@ export class TasksService {
   }
 
   public get tasks(): Observable<Task[]>{
-    return this._tasks.asObservable();
+    return this._tasks.asObservable().pipe(
+      map((taskList: Task[]) => {
+        return taskList.sort((taskA: Task, taskB: Task) => {
+          return new Date(new Date().setHours(+taskA.date.substring(0, 2), +taskA.date.substring(3, 5))).getTime() - new Date(new Date().setHours(+taskB.date.substring(0, 2), +taskB.date.substring(3, 5))).getTime()
+        });
+      })
+    );
   }
 
   public getTasks(): Observable<Task[]> {

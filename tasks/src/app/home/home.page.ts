@@ -22,8 +22,6 @@ export class HomePage extends ComponentBase implements OnInit {
 
   @ViewChild(TasksComponent) private appTaskChild: TasksComponent
 
-  private _loading: HTMLIonLoadingElement;
-
   public currentDate: string = new Date().toLocaleDateString('fr-FR', {weekday: 'long', month: 'long', day: 'numeric'});
   public modalOpened = false;
   public weatherIcon = 'partly-sunny-outline';
@@ -52,8 +50,6 @@ export class HomePage extends ComponentBase implements OnInit {
     }
 
     this.getBackground().subscribe();
-
-    this.getTasksDb();
   }
 
   public onAddTaskClick(): void{
@@ -132,24 +128,4 @@ export class HomePage extends ComponentBase implements OnInit {
       takeUntil(this.destroyed$)
     );
   }
-
-  private async presentLoading(){
-    this._loading = await this._loadingCtrl.create({
-      message: "Chargement des données..."
-    });
-
-    this._loading.present();
-  }
-
-  private async getTasksDb() {
-   await this.presentLoading();
-
-   this._tasksService.getTasks().pipe(
-     tap(() => {
-       this._loading.dismiss();
-     }),
-     takeUntil(this.destroyed$)
-   ).subscribe();
-  }
-
 }
