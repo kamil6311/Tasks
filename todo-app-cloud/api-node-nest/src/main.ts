@@ -8,7 +8,7 @@ import { AppModule } from './app.module';
 
     const app = await NestFactory.create(AppModule);
 
-    var whitelist = ['localhost:3001'];
+    var whitelist = ['https://localhost:3001'];
     app.enableCors({
       origin: function (origin, callback) {
         if (!origin || whitelist.indexOf(origin) !== -1) {
