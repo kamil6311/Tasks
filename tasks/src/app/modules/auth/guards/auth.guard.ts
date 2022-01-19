@@ -16,11 +16,6 @@ export class AuthGuard implements CanActivate {
     return this._authService.userInfos.pipe(
       tap((user) => {
         if(!user) {
-          this._alertCtrl.create({
-            header: "Non autorisé",
-            message: "Vous devez être connecté pour accéder à cette page.",
-            buttons: ["OK"]
-          }).then(alert => alert.present());
           this._router.navigateByUrl('/auth');
           return false;
         }

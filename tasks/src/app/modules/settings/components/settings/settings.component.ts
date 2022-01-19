@@ -105,7 +105,7 @@ export class SettingsComponent extends ComponentBase implements OnInit {
       tap(() => {
         this._loadingCtrl.dismiss();
         this._modalCtrl.dismiss();
-        this._navCtrl.navigateBack('/');
+        this._navCtrl.navigateBack('/auth');
       }),
       takeUntil(this.destroyed$)
     ).subscribe();
