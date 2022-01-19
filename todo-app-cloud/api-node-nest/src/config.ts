@@ -4,4 +4,5 @@ export const Config = () => ({
 
     dbUri: process.env.DB_URI,
     
+    apiKey: process.env.APIKEY
 });
