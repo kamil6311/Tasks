@@ -8,16 +8,16 @@ import { AppModule } from './app.module';
 
     const app = await NestFactory.create(AppModule);
 
-    var whitelist = ['https://localhost:3001'];
-    app.enableCors({
-      origin: function (origin, callback) {
-        if (!origin || whitelist.indexOf(origin) !== -1) {
-          callback(null, true)
-        } else {
-          callback(new Error('Not allowed by CORS'))
-        }
-      },
-    });
+    // var whitelist = ['https://localhost:3001'];
+    // app.enableCors({
+    //   origin: function (origin, callback) {
+    //     if (!origin || whitelist.indexOf(origin) !== -1) {
+    //       callback(null, true)
+    //     } else {
+    //       callback(new Error('Not allowed by CORS'))
+    //     }
+    //   },
+    // });
 
     app.useGlobalPipes(new ValidationPipe({
       transform: true
@@ -28,6 +28,7 @@ import { AppModule } from './app.module';
     const options = new DocumentBuilder().setTitle('Todo App API').setVersion("1.0.0").addApiKey({type: 'apiKey', name: 'apiKey', in: 'header'}, 'apiKey').addBearerAuth({ type: 'http', name: 'tokenAuth', in: 'header'}, 'tokenAuth').build();
     const swaggerDocument = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('api', app, swaggerDocument);
+    app.enableCors();
 
     await app.listen(process.env.PORT || 3000);
     
