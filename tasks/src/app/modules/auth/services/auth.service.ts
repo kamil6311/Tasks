@@ -64,9 +64,9 @@ export class AuthService {
     return `Bearer ${AuthService.accessToken}`;
   }
 
-  public loadStoredToken() {
+  private loadStoredToken() {
     let storage$ = from(this._storage.create());
-    return this.userInfos = storage$.pipe(
+    this.userInfos = storage$.pipe(
       switchMap(() => {
         return from(this._storage.get(ACCESS_TOKEN)).pipe(
           tap((token: string) => AuthService.accessToken = token)
@@ -84,7 +84,6 @@ export class AuthService {
         }
       })
     );
-
   }
 
 }
