@@ -29,6 +29,7 @@ export class TasksListComponent extends ComponentBase implements OnInit {
 
   public ngOnInit(): void {
     this.getTodos().subscribe();
+
   }
 
   public deleteTask(poTask: Task){
@@ -87,6 +88,10 @@ export class TasksListComponent extends ComponentBase implements OnInit {
       }),
       takeUntil(this.destroyed$)
     );
+  }
+
+  public getTaskProgress(psTaskDate: string){
+    return 1 - (+psTaskDate.split(':')[0] - new Date().getHours()) / 100;
   }
 }
 

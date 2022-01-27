@@ -38,7 +38,9 @@ h5 {
     --border-radius: 50px;
     --background: #56b89f;
     --color: #ffffff;
-    height: 8vh;
-    width: 8vh;
+    height: 70px;
+    max-height: 100%;
+    width: 70px;
+    max-width: 100%;
   }
 }

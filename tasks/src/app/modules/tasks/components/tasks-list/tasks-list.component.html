@@ -1,8 +1,8 @@
 <ion-grid>
   <ion-row>
     <ion-col sizeSm="6" offsetSm="3" sizeXl="6" offsetXl="3">
-      <ion-card *ngFor="let task of tasksList" style="margin: 10px" class="animate-opacity">
-        <ion-item-sliding>
+      <ng-container *ngFor="let task of tasksList">
+        <ion-item-sliding style="border-radius: 10px; margin-bottom: 10px;">
           <ion-item lines="none" button="true" (click)="selectTask(task)">
             <ion-checkbox color="success" slot="start" [(ngModel)]="task.closed"
               (ionChange)='toggleTaskChange(task, $event)' (click)="checkTask()"></ion-checkbox>
@@ -19,8 +19,9 @@
               <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
             </ion-item-option>
           </ion-item-options>
+          <ion-progress-bar [value]="getTaskProgress(task.date)" color="tertiary"></ion-progress-bar>
         </ion-item-sliding>
-      </ion-card>
+      </ng-container>
     </ion-col>
   </ion-row>
 </ion-grid>
