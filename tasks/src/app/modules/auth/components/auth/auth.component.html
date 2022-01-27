@@ -8,26 +8,28 @@
             <ion-icon color="light" name="person"></ion-icon>
           </div>
 
-          <ion-item>
+          <ion-item id="username">
             <ion-icon name="person-outline" class="login-ion-icon"></ion-icon>
             <ion-input formControlName="username" type="mail" color="dark" placeholder="Nom d'utilisateur">
             </ion-input>
           </ion-item>
 
-          <ion-item>
+          <ion-item id="password">
             <ion-icon name="key-outline" class="login-ion-icon"></ion-icon>
             <ion-input formControlName="password" color="dark" type="password" placeholder="Mot de passe"></ion-input>
           </ion-item>
 
-          <ion-item lines="none">
+          <ion-item lines="none" id="forgot-password">
             <ion-button color="medium" slot="end" fill="clear">Mot de passe oublié ?</ion-button>
           </ion-item>
 
-          <ion-button type="submit" color="primary" expand="block" shape="round" fill="outline">Connexion</ion-button>
+          <ion-button id="login-btn" type="submit" color="primary" expand="block" shape="round" fill="outline">Connexion
+          </ion-button>
 
           <br>
 
-          <ion-button color="tertiary" expand="block" shape="round" [routerLink]="['/', 'auth', 'register']">Inscription
+          <ion-button id="register-button" color="tertiary" expand="block" shape="round"
+            [routerLink]="['/', 'auth', 'register']">Inscription
           </ion-button>
         </form>
       </ion-col>

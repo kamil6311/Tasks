@@ -5,6 +5,7 @@ ion-item {
 .logo {
   position: relative;
   height: 250px;
+  animation: Slide_up 1s ease-out;
 }
 
 .logo ion-icon {
@@ -17,4 +18,46 @@ ion-item {
 
 .login-ion-icon {
   padding-right: 20px;
+}
+
+#username {
+  animation: Slide_up 1s ease-out;
+  animation-delay: 0.2s;
+  animation-fill-mode: backwards;
+}
+
+#password {
+  animation: Slide_up 1.1s ease-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: backwards;
+}
+
+#forgot-password {
+  animation: Slide_up 1.2s ease-out;
+  animation-delay: 0.5s;
+  animation-fill-mode: backwards;
+}
+
+#login-btn {
+  animation: Slide_up 1.4s ease-out;
+  animation-delay: 0.8s;
+  animation-fill-mode: backwards;
+}
+
+#register-button {
+  animation: Slide_up 1.5s ease-out;
+  animation-delay: 1s;
+  animation-fill-mode: backwards;
+}
+
+@keyframes Slide_up {
+  from {
+    opacity: 0%;
+    transform: translateY(100px);
+  }
+
+  to {
+    opacity: 100%;
+    transform: translateY(0px);
+  }
 }
