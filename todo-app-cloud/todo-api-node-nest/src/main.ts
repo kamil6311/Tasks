@@ -19,7 +19,6 @@ import { AppModule } from './app.module';
     SwaggerModule.setup('api', app, swaggerDocument);
 
     await app.listen(process.env.PORT || 3000);
-    
-
+  
   };
 bootstrap();
